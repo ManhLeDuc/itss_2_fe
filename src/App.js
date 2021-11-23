@@ -102,7 +102,7 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 // import PrivacyPolicyPage from "pages/PrivacyPolicy.js";
 
 // import ComponentRenderer from "ComponentRenderer.js";
-// import MainLandingPage from "MainLandingPage.js";
+import MainLandingPage from "MainLandingPage.js";
 import ThankYouPage from "ThankYouPage.js";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
@@ -132,9 +132,9 @@ export default function App() {
         <Route path="/signup">
           <SignupPage />
         </Route>
-        {/* <Route path="/">
+        <Route path="/">
           <MainLandingPage />
-        </Route> */}
+        </Route>
       </Switch>
     </Router>
   );

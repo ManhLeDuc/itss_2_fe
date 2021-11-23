@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -9,6 +9,8 @@ import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 import logo from "../../images/logo.svg";
 import { ReactComponent as MenuIcon } from "feather-icons/dist/icons/menu.svg";
 import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
+import { authenticationService } from '../../services/authentication.service';
+import { authHeader } from '../../helpers/auth-header';
 
 const Header = tw.header`
   flex justify-between items-center
@@ -70,18 +72,57 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
    * changing the defaultLinks variable below below.
    * If you manipulate links here, all the styling on the links is already done for you. If you pass links yourself though, you are responsible for styling the links or use the helper styled components that are defined here (NavLink)
    */
-  const defaultLinks = [
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  const loginLinks = [
     <NavLinks key={1}>
       <NavLink href="/#">About</NavLink>
       <NavLink href="/#">Blog</NavLink>
       <NavLink href="/#">Pricing</NavLink>
       <NavLink href="/#">Contact Us</NavLink>
-      <NavLink href="/#" tw="lg:ml-12!">
-        Login
-      </NavLink>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
+      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}>Log out</PrimaryLink>
     </NavLinks>
   ];
+
+  const notLoginLinks = [
+    <NavLinks key={1}>
+      <NavLink href="/#">About</NavLink>
+      <NavLink href="/#">Blog</NavLink>
+      <NavLink href="/#">Pricing</NavLink>
+      <NavLink href="/#">Contact Us</NavLink>
+      <NavLink href="/login" tw="lg:ml-12!">
+        Login
+      </NavLink>
+      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/signup">Sign Up</PrimaryLink>
+    </NavLinks>
+  ];
+
+  useEffect(() => {
+    if (authenticationService.currentUserValue) {
+      fetch(`https://rocky-gorge-10796.herokuapp.com/api/details`, {
+        method: 'GET',
+        headers: authHeader(),
+        credentials: 'include',
+
+      })
+        .then((res) => { return res.json(); })
+        .then((data) => {
+          if (data.success) {
+            setIsLogin(true)
+          }
+          else {
+            setIsLogin(false)
+            authenticationService.logout();
+          }
+
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  })
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
   const collapseBreakpointCss = collapseBreakPointCssMap[collapseBreakpointClass];
@@ -89,12 +130,12 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   const defaultLogoLink = (
     <LogoLink href="/">
       <img src={logo} alt="logo" />
-      Treact
+      360°
     </LogoLink>
   );
 
   logoLink = logoLink || defaultLogoLink;
-  links = links || defaultLinks;
+  links = isLogin ? loginLinks : notLoginLinks;
 
   return (
     <Header className={className || "header-light"}>

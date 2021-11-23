@@ -36,7 +36,7 @@ export default () => {
         <Row>
           <LogoContainer>
             <LogoImg src={logo} />
-            <LogoText>Treact</LogoText>
+            <LogoText>360°</LogoText>
           </LogoContainer>
           <LinksContainer>
             <Link href="#">Home</Link>
@@ -57,7 +57,7 @@ export default () => {
             </SocialLink>
           </SocialLinksContainer>
           <CopyrightText>
-            &copy; Copyright 2020, Treact Inc. All Rights Reserved.
+            &copy; Copyright 2020, 360° Inc. All Rights Reserved.
           </CopyrightText>
         </Row>
       </Content>

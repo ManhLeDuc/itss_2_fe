@@ -56,7 +56,7 @@ const IllustrationImage = styled.div`
 export default ({
   logoLinkUrl = "/",
   illustrationImageSrc = illustration,
-  headingText = "Sign Up For Treact",
+  headingText = "Sign Up For 360°",
   socialButtons = [
     {
       iconImageSrc: googleIconImageSrc,
@@ -99,6 +99,7 @@ export default ({
                 <DividerText>Or Sign up with your e-mail</DividerText>
               </DividerTextContainer> */}
               <Form>
+                <Input type="text" placeholder="Name" />
                 <Input type="email" placeholder="Email" />
                 <Input type="password" placeholder="Password" />
                 <Input type="password" placeholder="Confirm password" />
@@ -107,7 +108,7 @@ export default ({
                   <span className="text">{submitButtonText}</span>
                 </SubmitButton>
                 <p tw="mt-6 text-xs text-gray-600 text-center">
-                  I agree to abide by treact's{" "}
+                  I agree to abide by 360°'s{" "}
                   <a href={tosUrl} tw="border-b border-gray-500 border-dotted">
                     Terms of Service
                   </a>{" "}
