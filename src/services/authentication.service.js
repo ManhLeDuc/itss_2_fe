@@ -4,7 +4,7 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 
 function handleResponse(response) {
     return response.json().then(data => {
-        if (!data.token) {
+        if (!data.success) {
             if ([401, 403].indexOf(response.status) !== -1) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                 authenticationService.logout();
@@ -15,7 +15,7 @@ function handleResponse(response) {
             return Promise.reject(error);
         }
 
-        return data;
+        return data.success;
 
     });
 }
@@ -39,6 +39,27 @@ function login(username, password) {
         });
 }
 
+function signup(name, email, password, cPassword) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+            c_password: cPassword,
+        }),
+    };
+
+    return fetch(`https://rocky-gorge-10796.herokuapp.com/api/register`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            currentUserSubject.next(user);
+            return user;
+        });
+}
+
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
@@ -48,6 +69,7 @@ function logout() {
 export let authenticationService = {
     login,
     logout,
+    signup,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() { return currentUserSubject.value }
 };

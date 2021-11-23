@@ -81,7 +81,10 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
       <NavLink href="/#">Blog</NavLink>
       <NavLink href="/#">Pricing</NavLink>
       <NavLink href="/#">Contact Us</NavLink>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}>Log out</PrimaryLink>
+      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} onClick={() => {
+        authenticationService.logout();
+        setIsLogin(false);
+      }}>Log out</PrimaryLink>
     </NavLinks>
   ];
 
@@ -101,9 +104,8 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   useEffect(() => {
     if (authenticationService.currentUserValue) {
       fetch(`https://rocky-gorge-10796.herokuapp.com/api/details`, {
-        method: 'GET',
+        method: 'POST',
         headers: authHeader(),
-        credentials: 'include',
 
       })
         .then((res) => { return res.json(); })
@@ -122,7 +124,7 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
           console.log(error);
         });
     }
-  })
+  }, [])
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
   const collapseBreakpointCss = collapseBreakPointCssMap[collapseBreakpointClass];
