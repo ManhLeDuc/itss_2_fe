@@ -122,6 +122,7 @@ import MainLandingPage from "MainLandingPage.js";
 import ThankYouPage from "ThankYouPage.js";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
+import ProductDetailPage from "./pages/ProductDetail";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -139,10 +140,10 @@ export default function App() {
       <Switch>
         {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
-        </Route>
-        <Route path="/components/:type/:name">
-          <ComponentRenderer />
         </Route> */}
+        <Route path="/products/:id">
+          <ProductDetailPage />
+        </Route>
         <Route path="/thank-you">
           <ThankYouPage />
         </Route>
