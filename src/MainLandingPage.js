@@ -21,7 +21,7 @@ import Header from "./components/headers/light"
 // import heroScreenshotImageSrc from "images/demo/MainLandingPageHero.png";
 import logo from "images/logo.svg";
 import useInView from "@owaiswiz/use-in-view";
-
+import TabGrid from "components/cards/TabCardGrid.js";
 /* Hero */
 const Row = tw.div`flex`;
 const NavRow = tw(Row)`flex flex-col lg:flex-row items-center justify-between`;
@@ -106,7 +106,7 @@ export default ({
    */
   window.gtag("js", new Date());
   window.gtag("config", "UA-45799926-9");
-
+  const HighlightedText = tw.span`bg-primary-500 text-gray-100 px-4 transform -skew-x-12 inline-block`;
   const previewImageAnimationVariants = {
     rest: {
       backgroundPositionY: "0%"
@@ -135,6 +135,13 @@ export default ({
       <Container tw="bg-gray-100 -mx-8 -mt-8 pt-8 px-8">
         <Content2Xl>
           <Header></Header>
+          <TabGrid
+            heading={
+            <>
+              Checkout our <HighlightedText>clothes </HighlightedText>
+            </>
+          }
+        />
         </Content2Xl>
       </Container>
     </AnimationRevealPage>

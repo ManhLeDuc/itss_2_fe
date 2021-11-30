@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -9,7 +9,9 @@ import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
 import { ReactComponent as StarIcon } from "images/star-icon.svg";
 import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
-
+import {items} from "../../services/filter.js"
+import {PrimaryButton} from "components/misc/Buttons.js";
+import axios from 'axios';
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
@@ -61,8 +63,7 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 export default ({
   heading = "Checkout the Menu",
   tabs = {
-    DailyClothes: getDailyClothes(),
-    SportClothes: getSportClothes(),
+    AllClothes: [],
 
   }
 }) => {
@@ -71,23 +72,62 @@ export default ({
    * as the key and value of the key will be its content (as an array of objects).
    * To see what attributes are configurable of each object inside this array see the example above for "Starters".
    */
-  const tabsKeys = Object.keys(tabs);
+  const [localTabs, setLocalTabs] = useState(tabs);
+  const tabsKeys = Object.keys(localTabs);
   const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-
+  const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`
+  const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`
+  const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`
+  const [text,setText] = useState("");
+  const [choice,setChoice] = useState("");
+  const handleSubmit = async (event) =>{
+    event.preventDefault();
+    let data = await items.filter(text,choice);
+    console.log(data);
+    let tempArray = [];
+      for (let i=0 ; i<data.length; i++){
+        let temp = {};
+        temp.imageSrc = data[i].img_url;
+        temp.title = data[i].name;
+        temp.price = data[i].price.toString() + "¥";
+        tempArray.push(temp);
+      }
+      setLocalTabs({AllClothes: tempArray});
+  }
+  useEffect (()=>{
+    const fetchAPI = async () => {
+      let data = await items.allFashion();
+      let tempArray = [];
+      for (let i=0 ; i<data.length; i++){
+        let temp = {};
+        temp.imageSrc = data[i].img_url;
+        temp.title = data[i].name;
+        temp.price = data[i].price.toString() + "¥";
+        tempArray.push(temp);
+      }
+      setLocalTabs({AllClothes: tempArray});
+    }
+    fetchAPI();
+  },[]);
   return (
     <Container>
       <ContentWithPaddingXl>
         <HeaderRow>
           <Header>{heading}</Header>
           <TabsControl>
-            {Object.keys(tabs).map((tabName, index) => (
+            {Object.keys(localTabs).map((tabName, index) => (
               <TabControl key={index} active={activeTab === tabName} onClick={() => setActiveTab(tabName)}>
                 {tabName}
               </TabControl>
             ))}
           </TabsControl>
         </HeaderRow>
-
+        <Form onSubmit={(event) => { handleSubmit(event) }}>
+          <Input placeholder="Search here" value={text} onChange={(event) => { setText(event.target.value) }}/>
+          <Button type="submit">Search</Button>
+          <Input type="radio" value="name" onChange={(event)=>{setChoice(event.target.value)}}/>
+          <Input type="radio" value="species" onChange={(event)=>{setChoice(event.target.value)}}/>
+        </Form>
         {tabsKeys.map((tabKey, index) => (
           <TabContent
             key={index}
@@ -107,17 +147,10 @@ export default ({
             initial={activeTab === tabKey ? "current" : "hidden"}
             animate={activeTab === tabKey ? "current" : "hidden"}
           >
-            {tabs[tabKey].map((card, index) => (
+            {localTabs[tabKey].map((card, index) => (
               <CardContainer key={index}>
                 <Card className="group" href={card.url} initial="rest" whileHover="hover" animate="rest">
                   <CardImageContainer imageSrc={card.imageSrc}>
-                    <CardRatingContainer>
-                      <CardRating>
-                        <StarIcon />
-                        {card.rating}
-                      </CardRating>
-                      <CardReview>({card.reviews})</CardReview>
-                    </CardRatingContainer>
                     <CardHoverOverlay
                       variants={{
                         hover: {
@@ -149,101 +182,4 @@ export default ({
       <DecoratorBlob2 />
     </Container>
   );
-};
-
-/* This function is only there for demo purposes. It populates placeholder cards */
-const getDailyClothes = () => {
-  const cards = [
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/DSC07107_copy.jpg",
-      title: "Áo Hoodie nam có mũ trùm",
-      price: "389.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/denn3-(2).jpg",
-      title: "Áo thun Cotton Compact",
-      price: "259.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/1-0_copyu_672x990.jpg",
-      title: "Áo Polo Cotton Compact",
-      price: "202.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/1-0_copy1.jpg",
-      title: "Quần Jeans Basic Slim",
-      price: "499.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    }
-  ];
-
-  // Shuffle array
-  return cards.sort(() => Math.random() - 0.5);
-};
-const getSportClothes = () => {
-  const cards = [
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/IMG_68181.jpg",
-      title: "Quần Jogger Sweatpants ",
-      price: "269.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/2_26_copy.jpg",
-      title: "Áo Polo ProMax-S1 Logo",
-      price: "239.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/2L6A6164(1).jpg",
-      title: "Quần Jogger co giãn ",
-      price: "229.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/1426x2100_(4).jpg",
-      title: "Áo Tank Top Dri-Breathe ",
-      price: "189.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    },
-    {
-      imageSrc:
-        "https://mcdn2.coolmate.me/uploads/November2021/mus2_copy.jpg",
-      title: "Quần Max Ultra Short",
-      price: "189.000đ",
-      rating: "5.0",
-      reviews: "90",
-      url: "#"
-    }
-  ];
-
-  // Shuffle array
-  return cards.sort(() => Math.random() - 0.5);
 };
