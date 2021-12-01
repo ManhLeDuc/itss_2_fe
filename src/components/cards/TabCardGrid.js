@@ -1,4 +1,5 @@
 import React, { useState , useEffect} from "react";
+import './TabCardGrid.css';
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -123,10 +124,19 @@ export default ({
           </TabsControl>
         </HeaderRow>
         <Form onSubmit={(event) => { handleSubmit(event) }}>
+          <div className="seachbox">
           <Input placeholder="Search here" value={text} onChange={(event) => { setText(event.target.value) }}/>
+          
           <Button type="submit">Search</Button>
-          <Input type="radio" value="name" onChange={(event)=>{setChoice(event.target.value)}}/>
-          <Input type="radio" value="species" onChange={(event)=>{setChoice(event.target.value)}}/>
+          <div className="checkbox">
+          <div >
+          Name <Input type="radio" value="name" onChange={(event)=>{setChoice(event.target.value)}}/>
+          </div>
+          <div >
+          Species <Input type="radio" value="species" onChange={(event)=>{setChoice(event.target.value)}}/>
+          </div>
+          </div>
+          </div>
         </Form>
         {tabsKeys.map((tabKey, index) => (
           <TabContent
