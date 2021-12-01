@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import './TabCardGrid.css';
 import { motion } from "framer-motion";
 import tw from "twin.macro";
@@ -10,8 +10,8 @@ import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
 import { ReactComponent as StarIcon } from "images/star-icon.svg";
 import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
-import {items} from "../../services/filter.js"
-import {PrimaryButton} from "components/misc/Buttons.js";
+import { items } from "../../services/filter.js"
+import { PrimaryButton } from "components/misc/Buttons.js";
 import axios from 'axios';
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
@@ -25,7 +25,9 @@ const TabControl = styled.div`
   ${props => props.active && tw`bg-primary-500! text-gray-100!`}
   }
 `;
-
+const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`
+const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`
+const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`
 const TabContent = tw(motion.div)`mt-6 flex flex-wrap sm:-mr-10 md:-mr-6 lg:-mr-12`;
 const CardContainer = tw.div`mt-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:pr-10 md:pr-6 lg:pr-12`;
 const Card = tw(motion.a)`bg-gray-200 rounded-b block max-w-xs mx-auto sm:max-w-none sm:mx-0`;
@@ -76,40 +78,37 @@ export default ({
   const [localTabs, setLocalTabs] = useState(tabs);
   const tabsKeys = Object.keys(localTabs);
   const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-  const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`
-  const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`
-  const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`
-  const [text,setText] = useState("");
-  const [choice,setChoice] = useState("");
-  const handleSubmit = async (event) =>{
+  const [text, setText] = useState("");
+  const [choice, setChoice] = useState("");
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    let data = await items.filter(text,choice);
+    let data = await items.filter(text, choice);
     console.log(data);
     let tempArray = [];
-      for (let i=0 ; i<data.length; i++){
-        let temp = {};
-        temp.imageSrc = data[i].img_url;
-        temp.title = data[i].name;
-        temp.price = data[i].price.toString() + "¥";
-        tempArray.push(temp);
-      }
-      setLocalTabs({AllClothes: tempArray});
+    for (let i = 0; i < data.length; i++) {
+      let temp = {};
+      temp.imageSrc = data[i].img_url;
+      temp.title = data[i].name;
+      temp.price = data[i].price.toString() + "¥";
+      tempArray.push(temp);
+    }
+    setLocalTabs({ AllClothes: tempArray });
   }
-  useEffect (()=>{
+  useEffect(() => {
     const fetchAPI = async () => {
       let data = await items.allFashion();
       let tempArray = [];
-      for (let i=0 ; i<data.length; i++){
+      for (let i = 0; i < data.length; i++) {
         let temp = {};
         temp.imageSrc = data[i].img_url;
         temp.title = data[i].name;
         temp.price = data[i].price.toString() + "¥";
         tempArray.push(temp);
       }
-      setLocalTabs({AllClothes: tempArray});
+      setLocalTabs({ AllClothes: tempArray });
     }
     fetchAPI();
-  },[]);
+  }, []);
   return (
     <Container>
       <ContentWithPaddingXl>
@@ -125,17 +124,17 @@ export default ({
         </HeaderRow>
         <Form onSubmit={(event) => { handleSubmit(event) }}>
           <div className="seachbox">
-          <Input placeholder="Search here" value={text} onChange={(event) => { setText(event.target.value) }}/>
-          
-          <Button type="submit">Search</Button>
-          <div className="checkbox">
-          <div >
-          Name <Input type="radio" value="name" onChange={(event)=>{setChoice(event.target.value)}}/>
-          </div>
-          <div >
-          Species <Input type="radio" value="species" onChange={(event)=>{setChoice(event.target.value)}}/>
-          </div>
-          </div>
+            <Input placeholder="Search here" value={text} onChange={(event) => { setText(event.target.value) }} />
+
+            <Button type="submit">Search</Button>
+            <div className="checkbox">
+              <div >
+                Name <Input type="radio" value="name" onChange={(event) => { setChoice(event.target.value) }} />
+              </div>
+              <div >
+                Species <Input type="radio" value="species" onChange={(event) => { setChoice(event.target.value) }} />
+              </div>
+            </div>
           </div>
         </Form>
         {tabsKeys.map((tabKey, index) => (
@@ -144,12 +143,12 @@ export default ({
             variants={{
               current: {
                 opacity: 1,
-                scale:1,
+                scale: 1,
                 display: "flex",
               },
               hidden: {
                 opacity: 0,
-                scale:0.8,
+                scale: 0.8,
                 display: "none",
               }
             }}

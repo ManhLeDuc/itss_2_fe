@@ -20,6 +20,7 @@ import { ReactComponent as ArrowRightIcon } from "images/arrow-right-3-icon.svg"
 import Header from "./components/headers/light"
 // import heroScreenshotImageSrc from "images/demo/MainLandingPageHero.png";
 import logo from "images/logo.svg";
+import Footer from "components/footers/FiveColumnWithInputForm.js";
 import useInView from "@owaiswiz/use-in-view";
 import TabGrid from "components/cards/TabCardGrid.js";
 /* Hero */
@@ -142,6 +143,7 @@ export default ({
             </>
           }
         />
+        <Footer></Footer>
         </Content2Xl>
       </Container>
     </AnimationRevealPage>

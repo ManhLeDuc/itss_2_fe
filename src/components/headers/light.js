@@ -104,7 +104,6 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   useEffect(() => {
     if (authenticationService.currentUserValue) {
       fetch(`https://rocky-gorge-10796.herokuapp.com/api/details`, {
-        method: 'POST',
         headers: authHeader(),
 
       })

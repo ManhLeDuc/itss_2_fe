@@ -34,15 +34,17 @@ export default () => {
   const testCard =
   {
     imageSrc:
-      "https://images.unsplash.com/photo-1550699026-4114bbf4fb49?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=632&q=80",
-    subtitle: "Paid",
-    title: "Loachella, NYC",
+      "",
+    subtitle: "",
+    title: "",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    url: "https://timerse.com"
+      "",
+    url: "#",
+    size: "",
   };
 
   const [card, setCard] = useState(testCard);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`https://rocky-gorge-10796.herokuapp.com/api/showFashion/${id}`)
@@ -53,8 +55,10 @@ export default () => {
           subtitle: data.species,
           title: data.name,
           description: data.description,
+          size: data.size,
           url: "#"
-        })
+        });
+        setIsLoading(false);
 
         console.log(data);
       })
@@ -67,15 +71,18 @@ export default () => {
     <Container>
       <SingleColumn>
         <Content>
-          <Card>
-            <Image imageSrc={card.imageSrc} />
-            <Details>
-              <Subtitle>{card.subtitle}</Subtitle>
-              <Title>{card.title}</Title>
-              <Description>{card.description}</Description>
-              <Link href={card.url}>Add</Link>
-            </Details>
-          </Card>
+          {!isLoading
+            ? <Card>
+              <Image imageSrc={card.imageSrc} />
+              <Details>
+                <Subtitle>{card.subtitle}</Subtitle>
+                <Title>{card.title}</Title>
+                <Description>{card.description}</Description>
+                <div>Size: {card.size}</div>
+                <Link href={card.url}>Add</Link>
+              </Details>
+            </Card>
+            : <div></div>}
         </Content>
       </SingleColumn>
     </Container>
