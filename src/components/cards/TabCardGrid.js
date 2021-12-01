@@ -85,14 +85,15 @@ export default ({
     let data = await items.filter(text, choice);
     console.log(data);
     let tempArray = [];
-    for (let i = 0; i < data.length; i++) {
-      let temp = {};
-      temp.imageSrc = data[i].img_url;
-      temp.title = data[i].name;
-      temp.price = data[i].price.toString() + "¥";
-      tempArray.push(temp);
-    }
-    setLocalTabs({ AllClothes: tempArray });
+      for (let i=0 ; i<data.length; i++){
+        let temp = {};
+        temp.imageSrc = data[i].img_url;
+        temp.title = data[i].name;
+        temp.price = data[i].price.toString() + "¥";
+        temp.url = "products/" + data[i].id.toString();
+        tempArray.push(temp);
+      }
+      setLocalTabs({AllClothes: tempArray});
   }
   useEffect(() => {
     const fetchAPI = async () => {
@@ -103,6 +104,7 @@ export default ({
         temp.imageSrc = data[i].img_url;
         temp.title = data[i].name;
         temp.price = data[i].price.toString() + "¥";
+        temp.url = "products/" + data[i].id.toString();
         tempArray.push(temp);
       }
       setLocalTabs({ AllClothes: tempArray });
