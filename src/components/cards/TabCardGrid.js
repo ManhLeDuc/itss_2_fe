@@ -25,7 +25,9 @@ const TabControl = styled.div`
   ${props => props.active && tw`bg-primary-500! text-gray-100!`}
   }
 `;
-
+const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`;
+const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`;
+const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`;
 const TabContent = tw(motion.div)`mt-6 flex flex-wrap sm:-mr-10 md:-mr-6 lg:-mr-12`;
 const CardContainer = tw.div`mt-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:pr-10 md:pr-6 lg:pr-12`;
 const Card = tw(motion.a)`bg-gray-200 rounded-b block max-w-xs mx-auto sm:max-w-none sm:mx-0`;
@@ -76,9 +78,6 @@ export default ({
   const [localTabs, setLocalTabs] = useState(tabs);
   const tabsKeys = Object.keys(localTabs);
   const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-  const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`
-  const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`
-  const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`
   const [text,setText] = useState("");
   const [choice,setChoice] = useState("");
   const handleSubmit = async (event) =>{

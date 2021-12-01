@@ -156,13 +156,6 @@ export default function App() {
         </Route>
         <Route path="/">
           <MainLandingPage />
-          <TabGrid
-        heading={
-          <>
-            Checkout our <HighlightedText>clothes </HighlightedText>
-          </>
-        }
-      />
         </Route>
       </Switch>
     </Router>
