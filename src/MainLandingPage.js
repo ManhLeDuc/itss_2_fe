@@ -23,6 +23,7 @@ import logo from "images/logo.svg";
 import Footer from "components/footers/FiveColumnWithInputForm.js";
 import useInView from "@owaiswiz/use-in-view";
 import TabGrid from "components/cards/TabCardGrid.js";
+import { Button } from "react-bootstrap";
 /* Hero */
 const Row = tw.div`flex`;
 const NavRow = tw(Row)`flex flex-col lg:flex-row items-center justify-between`;
@@ -132,21 +133,24 @@ export default ({
   ];
 
   return (
-    <AnimationRevealPage disabled>
-      <Container tw="bg-gray-100 -mx-8 -mt-8 pt-8 px-8">
-        <Content2Xl>
-          <Header></Header>
-          <TabGrid
-            heading={
-            <>
-              Checkout our <HighlightedText>clothes </HighlightedText>
-            </>
-          }
-        />
-        <Footer></Footer>
-        </Content2Xl>
-      </Container>
-    </AnimationRevealPage>
+    <div>
+      <AnimationRevealPage disabled>
+        <Container tw="bg-gray-100 -mx-8 -mt-8 pt-8 px-8">
+          <Content2Xl>
+            <Header></Header>
+            <TabGrid
+              heading={
+                <>
+                  Checkout our <HighlightedText>clothes </HighlightedText>
+                </>
+              }
+            />
+            <Footer></Footer>
+          </Content2Xl>
+        </Container>
+      </AnimationRevealPage>
+    </div>
+
   );
 };
 
