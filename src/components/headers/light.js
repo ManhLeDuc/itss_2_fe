@@ -77,10 +77,8 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
 
   const loginLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">About</NavLink>
-      <NavLink href="/#">Blog</NavLink>
-      <NavLink href="/#">Pricing</NavLink>
-      <NavLink href="/#">Contact Us</NavLink>
+      <NavLink href="/profile">Profile</NavLink>
+      <NavLink href="/cart">Cart</NavLink>
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} onClick={() => {
         authenticationService.logout();
         setIsLogin(false);
@@ -90,10 +88,6 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
 
   const notLoginLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">About</NavLink>
-      <NavLink href="/#">Blog</NavLink>
-      <NavLink href="/#">Pricing</NavLink>
-      <NavLink href="/#">Contact Us</NavLink>
       <NavLink href="/login" tw="lg:ml-12!">
         Login
       </NavLink>

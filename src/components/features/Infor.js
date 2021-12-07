@@ -1,17 +1,48 @@
 import React from "react";
 import './Infor.css';
+import { authenticationService } from '../../services/authentication.service';
+import { authHeader } from '../../helpers/auth-header';
 
 class Infor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      guestName: 'Nguyen Van A',
-      sex: 'Nam',
-      age: '20',
-      height: '1.8',
-      weight: '50'
-    };
+  state = {
+    guestName: '',
+    sex: '',
+    age: '',
+    height: '',
+    weight: '',
+    id: ''
   };
+
+  componentWillMount() {
+    if (authenticationService.currentUserValue) {
+      fetch(`https://rocky-gorge-10796.herokuapp.com/api/details`, {
+        headers: authHeader(),
+
+      })
+        .then((res) => { return res.json(); })
+        .then((data) => {
+          if (data.success) {
+            this.setState({
+              guestName: data.success.name,
+              sex: data.success.sex === 0 ? "male" : "female",
+              age: data.success.age,
+              height: data.success.height,
+              weight: data.success.weight,
+              id: data.success.id
+            });
+          }
+          else {
+            authenticationService.logout();
+            window.location.href = "/"
+          }
+
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -33,77 +64,98 @@ class Infor extends React.Component {
   };
 
   handleSubmit = (event) => {
-    alert('Name: '
-      + this.state.guestName + ', Sex: '
-      + this.state.sex + ' , Age: '
-      + this.state.age + ' , Height: '
-      + this.state.height + ', Weight '
-      + this.state.weight 
-    );
     event.preventDefault();
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authHeader().Authorization);
+    myHeaders.append("Accept", "application/json");
+
+    var formdata = new FormData();
+    formdata.append("age", this.state.age.toString());
+    formdata.append("name", this.state.guestName);
+    formdata.append("sex", this.state.sex === "male" ? "0" :"1");
+    formdata.append("weight", this.state.weight.toString());
+    formdata.append("height", this.state.height.toString());
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow'
+    };
+
+    fetch("https://rocky-gorge-10796.herokuapp.com/api/updateUser/2", requestOptions)
+      .then(response => response.text())
+      .then(data => {
+        window.alert("Update Profile Successfully!");
+      })
+      .catch(error => {
+        window.alert("Failed to Update Profile");
+        window.location.reload();
+      });
   };
 
   render() {
     return (
-      <div className = "container">
-      <h1>User's Information</h1>
-      <form onSubmit={this.handleSubmit}>
-       
+      <div className="container">
+        <h1>User's Information</h1>
+        <form onSubmit={this.handleSubmit}>
 
-        <label>
-        <div className = "col-40 ip-title">Name: </div>
-          <input className = "col-60 ip-box"
-            name="guestName"
-            type="text"
-            value={this.state.guestName}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
 
-        <label>
-        <div className = "col-40 ip-title">Sex: </div>
-          <select className = "col-60 ip-box"
-            name="sex"
-            value={this.state.sex}
-            onChange={this.handleInputChange}
-          >
-            <option value="nam">Nam</option>
-            <option value="nu">Nu</option>
-          </select>
-        </label>
-        <br />
+          <label>
+            <div className="col-40 ip-title">Name: </div>
+            <input className="col-60 ip-box"
+              name="guestName"
+              type="text"
+              value={this.state.guestName}
+              onChange={this.handleInputChange} />
+          </label>
+          <br />
 
-        <label>
-        <div className = "col-40 ip-title">Age: </div>
-          <input className = "col-60 ip-box"
-            name="age"
-            type="text"
-            value={this.state.age}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
+          <label>
+            <div className="col-40 ip-title">Sex: </div>
+            <select className="col-60 ip-box"
+              name="sex"
+              value={this.state.sex}
+              onChange={this.handleInputChange}
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </label>
+          <br />
 
-        <label>
-          <div className = "col-40 ip-title">Height(m): </div>
-          <input className = "col-60 ip-box"
-            name="height"
-            type="text"
-            value={this.state.height}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
+          <label>
+            <div className="col-40 ip-title">Age: </div>
+            <input className="col-60 ip-box"
+              name="age"
+              type="text"
+              value={this.state.age}
+              onChange={this.handleInputChange} />
+          </label>
+          <br />
 
-        <label>
-         <div className = "col-40 ip-title"> Weight(kg): </div>
-          <input className = "col-60 ip-box"
-            name="weight"
-            type="text"
-            value={this.state.weight}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
+          <label>
+            <div className="col-40 ip-title">Height(cm): </div>
+            <input className="col-60 ip-box"
+              name="height"
+              type="text"
+              value={this.state.height}
+              onChange={this.handleInputChange} />
+          </label>
+          <br />
+
+          <label>
+            <div className="col-40 ip-title"> Weight(kg): </div>
+            <input className="col-60 ip-box"
+              name="weight"
+              type="text"
+              value={this.state.weight}
+              onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
       </div>
     );
   };

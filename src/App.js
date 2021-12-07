@@ -145,10 +145,10 @@ export default function App() {
         {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route> */}
-        <Route path="/inforuser">
+        <Route path="/profile">
           <InforUser />
         </Route>
-        <Route path="/shoppingcart">
+        <Route path="/cart">
           <ShoppingCart />
         </Route>
         <Route path="/products/:id">
