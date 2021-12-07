@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './TabCardGrid.css';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -13,6 +14,8 @@ import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7
 import { items } from "../../services/filter.js"
 import { PrimaryButton } from "components/misc/Buttons.js";
 import axios from 'axios';
+import { authenticationService } from '../../services/authentication.service';
+import { authHeader } from '../../helpers/auth-header';
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
 const TabsControl = tw.div`flex flex-wrap bg-gray-200 px-2 py-2 rounded leading-none mt-12 xl:mt-0`;
@@ -26,7 +29,8 @@ const TabControl = styled.div`
   }
 `;
 const Form = tw.form`text-sm max-w-sm sm:max-w-none mx-auto`
-const Input = tw.input`w-full sm:w-auto block sm:inline-block px-6 py-4 rounded bg-secondary-600 tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-secondary-500 transition duration-300 text-gray-200`
+const Input = tw.input`w-full block sm:inline-block px-6 py-4 rounded tracking-wider font-bold border border-secondary-600 focus:border-secondary-300 focus:outline-none sm:rounded-r-none hover:bg-primary-600 transition duration-300 text-gray-200`
+
 const Button = tw(PrimaryButton)`w-full sm:w-auto mt-6 sm:mt-0 sm:rounded-l-none py-4 bg-green-500 text-gray-100 hocus:bg-green-700 hocus:text-gray-300 border border-green-500 hocus:border-green-700`
 const TabContent = tw(motion.div)`mt-6 flex flex-wrap sm:-mr-10 md:-mr-6 lg:-mr-12`;
 const CardContainer = tw.div`mt-10 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:pr-10 md:pr-6 lg:pr-12`;
@@ -67,7 +71,7 @@ export default ({
   heading = "Checkout the Menu",
   tabs = {
     AllClothes: [],
-
+    ClothesForU: [],
   }
 }) => {
   /*
@@ -78,11 +82,14 @@ export default ({
   const [localTabs, setLocalTabs] = useState(tabs);
   const tabsKeys = Object.keys(localTabs);
   const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-  const [text, setText] = useState("");
-  const [choice, setChoice] = useState("");
+  const [recommend,setRecommend] = useState([]);
+  const [name,setName] = useState("");
+  const [species,setSpecies] = useState("");
+  const [min,setMin] = useState(0);
+  const [max,setMax] = useState(999999);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let data = await items.filter(text, choice);
+    let data = await items.filter(name,species,min,max);
     console.log(data);
     let tempArray = [];
       for (let i=0 ; i<data.length; i++){
@@ -93,11 +100,12 @@ export default ({
         temp.url = "products/" + data[i].id.toString();
         tempArray.push(temp);
       }
-      setLocalTabs({AllClothes: tempArray});
+      setLocalTabs({AllClothes: tempArray,ClothesForU: localTabs.ClothesForU});
   }
   useEffect(() => {
     const fetchAPI = async () => {
       let data = await items.allFashion();
+      console.log(data);
       let tempArray = [];
       for (let i = 0; i < data.length; i++) {
         let temp = {};
@@ -107,7 +115,19 @@ export default ({
         temp.url = "products/" + data[i].id.toString();
         tempArray.push(temp);
       }
-      setLocalTabs({ AllClothes: tempArray });
+      let tempArray2 = [];
+      if (authenticationService.currentUserValue){
+        let recommendData = await items.recommend(authHeader());
+        for (let i = 0; i < recommendData.length; i++) {
+        let temp = {};
+        temp.imageSrc = data[i].img_url;
+        temp.title = data[i].name;
+        temp.price = data[i].price.toString() + "¥";
+        temp.url = "products/" + data[i].id.toString();
+        tempArray2.push(temp);
+      }
+      }
+      setLocalTabs({AllClothes: tempArray,ClothesForU: tempArray2});
     }
     fetchAPI();
   }, []);
@@ -125,18 +145,26 @@ export default ({
           </TabsControl>
         </HeaderRow>
         <Form onSubmit={(event) => { handleSubmit(event) }}>
-          <div className="seachbox">
-            <Input placeholder="Search here" value={text} onChange={(event) => { setText(event.target.value) }} />
-
-            <Button type="submit">Search</Button>
-            <div className="checkbox">
-              <div >
-                Name <Input type="radio" value="name" onChange={(event) => { setChoice(event.target.value) }} />
-              </div>
-              <div >
-                Species <Input type="radio" value="species" onChange={(event) => { setChoice(event.target.value) }} />
-              </div>
+           <div className="row pt-3">
+            <div className="col-xl-6 col-md-12 input-form pt-2">
+              <div className="label align-self-center">Name</div>
+              <Input placeholder="Search name" value={name} onChange={(event) => { setName(event.target.value) }} />
             </div>
+            <div className="col-xl-6 col-md-12 input-form pt-2">
+              <span className="label align-self-center">Species</span>
+              <Input placeholder="Search species" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
+            </div>
+            <div className="col-xl-6 col-md-12 input-form pt-2">
+              <span className="label align-self-center">Max</span>
+              <Input placeholder="Input max" value={min} onChange={(event) => { setMin(event.target.value.toString()) }} />
+            </div>
+            <div className="col-xl-6 col-md-12 input-form pt-2">
+              <span className="label align-self-center">Min</span>
+              <Input placeholder="Input min" value={max} onChange={(event) => { setMax(event.target.value.toString()) }} />
+            </div>
+            <div className="button-search pt-3 align-self-center">
+              <Button className="align-self-center" type="submit">Search</Button>
+              </div>
           </div>
         </Form>
         {tabsKeys.map((tabKey, index) => (

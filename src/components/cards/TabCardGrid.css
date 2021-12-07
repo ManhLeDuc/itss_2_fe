@@ -1,20 +1,21 @@
-.seachbox {
-    position: absolute;
-    right: 0px;
+.search-group {
+    display: flex;
 }
 
-.checkbox {
-    position: absolute;
-    top: 6px;
-    left: 200px;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-    -webkit-transition-duration: 300ms;
-    transition-duration: 300ms;
-    --tw-text-opacity: 1;
-    color: rgba(237,242,247,0.3);
-    display: flex; 
-    flex-direction: column; 
-    justify-content: space-between; 
-    align-items: flex-end;
+.dropdown {
+    width: 20%;
+    padding-right: 0px !important;
+}
+.label {
+    padding-right: 15px;
+    width: 25%;
+}
+.input-form {
+    display: flex;
+}
+.button-search {
+    width: 100% !important;
+    display: flex; }
+.button-btn {
+    width: 120px !important;
 }
