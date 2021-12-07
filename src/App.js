@@ -124,8 +124,11 @@ import ThankYouPage from "ThankYouPage.js";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
 import ProductDetailPage from "./pages/ProductDetail";
+import InforUser from "./pages/InforUser";
+import ShoppingCart from "./pages/ShoppingCart";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 
 export default function App() {
   // If you want to disable the animation just use the disabled `prop` like below on your page's component
@@ -142,6 +145,12 @@ export default function App() {
         {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route> */}
+        <Route path="/inforuser">
+          <InforUser />
+        </Route>
+        <Route path="/shoppingcart">
+          <ShoppingCart />
+        </Route>
         <Route path="/products/:id">
           <ProductDetailPage />
         </Route>
