@@ -40,11 +40,14 @@ export default () => {
     description:
       "",
     url: "#",
-    size: "",
+    sizes: [],
+    price: "",
   };
 
   const [card, setCard] = useState(testCard);
   const [isLoading, setIsLoading] = useState(true);
+  const [sizeChoice, setSizeChoice] = useState("");
+  const [quantityChoice, setQuantityChoice] = useState(1);
 
   useEffect(() => {
     fetch(`https://rocky-gorge-10796.herokuapp.com/api/showFashion/${id}`)
@@ -55,7 +58,8 @@ export default () => {
           subtitle: data.species,
           title: data.name,
           description: data.description,
-          size: data.size,
+          sizes: data.sizes,
+          price: data.price,
           url: "#"
         });
         setIsLoading(false);
@@ -66,6 +70,25 @@ export default () => {
         console.log(error);
       });
   }, [])
+
+  const getCardSizes = (sizes) => {
+    var string = ""
+    sizes.forEach(size => { string += `${size.name} ` });
+    return string
+  }
+
+  const handleAdd = () => {
+    let alo = localStorage.getItem('carts');
+    let storedProducts;
+    if(alo){
+      storedProducts = JSON.parse(alo);
+    } else{
+      storedProducts = [];
+    }    
+    storedProducts.push({name: card.title, image_url: card.imageSrc, price:card.price , size: sizeChoice, quantity: quantityChoice})
+    localStorage.setItem('carts', JSON.stringify(storedProducts));
+    window.location.href = "/"
+  }
 
   return (
     <Container>
@@ -78,8 +101,31 @@ export default () => {
                 <Subtitle>{card.subtitle}</Subtitle>
                 <Title>{card.title}</Title>
                 <Description>{card.description}</Description>
-                <div>Size: {card.size}</div>
-                <Link href={card.url}>Add</Link>
+                <Description>Price {card.price}</Description>
+                <div>Size: {getCardSizes(card.sizes)}</div>
+                <label>
+                  <div className="col-40 ip-title">Size: </div>
+                  <select className="col-60 ip-box"
+                    name="size"
+                    value={sizeChoice}
+                    onChange={(event)=>{setSizeChoice(event.target.value)}}
+                  >
+                    {card.sizes.map((size,index)=>(<option value={size.name}>{size.name}</option>))}
+                    
+                  </select>
+                </label>
+                <br />
+                <label>
+                  <div className="col-40 ip-title">Quantity: </div>
+                  <input className="col-60 ip-box"
+                    name="quantity"
+                    type="number"
+                    value={quantityChoice}
+                    min={1}
+                    onChange={(event)=>{setQuantityChoice(event.target.value)}} />
+                </label>
+                <br />
+                <Link onClick={handleAdd}>Add</Link>
               </Details>
             </Card>
             : <div></div>}

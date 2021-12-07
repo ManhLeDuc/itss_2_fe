@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import './Cart.css';
+import CartItem from './CartItem'
 
 function Cart() {
+    const [products, setProducts] = useState([])
+
+    const sumProductsPrice = () => {
+        let sum = 0;
+        products.forEach((ele) => {
+            sum += ele.price * ele.quantity;
+        })
+        return sum;
+    }
+
+    useEffect(() => {
+        const storedProducts = localStorage.getItem('carts') || []
+        setProducts(JSON.parse(storedProducts))
+    }, [])
+
+    const handleDelete = (index) => {
+        let alo = localStorage.getItem('carts');
+        let storedProducts;
+        if (alo) {
+            storedProducts = JSON.parse(alo);
+        } else {
+            return
+        }
+        storedProducts.splice(index, 1);
+        setProducts(storedProducts);
+        localStorage.setItem('carts', JSON.stringify(storedProducts));
+    }
+
     return (
         <div>
             <div className="modal-body">
@@ -11,31 +40,12 @@ function Cart() {
                     <span className="cart-quantity cart-header cart-column">Quantity</span>
                 </div>
                 <div className="cart-items">
-                    <div className="cart-row">
-                        <div className="cart-item cart-column">
-                            <img alt="error" className="cart-item-image" src="https://mcdn2.coolmate.me/uploads/November2021/BT5A8038-Edit-copy_copy.jpg" width="100" height="100"></img>
-                            <span className="cart-item-title">Áo Hoodie nam có mũ trùm Classic </span>
-                        </div>
-                        <span className="cart-price cart-column">250000đ</span>
-                        <div className="cart-quantity cart-column">
-                            <input className="cart-quantity-input" type="number" value="1"></input>
-                            <button className="btn btn-danger" type="button">Delete</button>
-                        </div>
-                    </div>
-                    <div className="cart-row">
-                        <div className="cart-item cart-column">
-                            <img alt="error" className="cart-item-image" src="https://mcdn2.coolmate.me/uploads/November2021/uBT5A8285-(1)_46.jpg" width="100" height="100"></img>
-                            <span className="cart-item-title">Quần Jeans Basic Slim </span>
-                        </div>
-                        <span className="cart-price cart-column">250000đ</span>
-                        <div className="cart-quantity cart-column">
-                            <input className="cart-quantity-input" type="number" value="2"></input>
-                            <button className="btn btn-danger" type="button">Delete</button>
-                        </div>
-                    </div>
+                    {products.map((product, index) => (
+                        <CartItem product={product} handleDelete={() => { handleDelete(index) }}></CartItem>
+                    ))}
                     <div className="cart-total">
                         <strong className="cart-total-title">Total:</strong>
-                        <span className="cart-total-price">750000VNĐ</span>
+                        <span className="cart-total-price">{`${sumProductsPrice()}¥`}</span>
                     </div>
                 </div>
 
