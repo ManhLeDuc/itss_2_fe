@@ -138,12 +138,12 @@ export default ({
           <Header></Header>
           <TabGrid
             heading={
-            <>
-              Checkout our <HighlightedText>clothes </HighlightedText>
-            </>
-          }
-        />
-        <Footer></Footer>
+              <>
+                Checkout our <HighlightedText>clothes </HighlightedText>
+              </>
+            }
+          />
+          <Footer></Footer>
         </Content2Xl>
       </Container>
     </AnimationRevealPage>
