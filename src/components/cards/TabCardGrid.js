@@ -155,11 +155,11 @@ export default ({
               <Input placeholder="Search species" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
             </div>
             <div className="col-xl-6 col-md-12 input-form pt-2">
-              <span className="label align-self-center">Max</span>
+              <span className="label align-self-center">Min price</span>
               <Input placeholder="Input max" value={min} onChange={(event) => { setMin(event.target.value.toString()) }} />
             </div>
             <div className="col-xl-6 col-md-12 input-form pt-2">
-              <span className="label align-self-center">Min</span>
+              <span className="label align-self-center">Max price</span>
               <Input placeholder="Input min" value={max} onChange={(event) => { setMax(event.target.value.toString()) }} />
             </div>
             <div className="button-search pt-3 align-self-center">
