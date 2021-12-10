@@ -84,7 +84,7 @@ class Infor extends React.Component {
       redirect: 'follow'
     };
 
-    fetch("https://rocky-gorge-10796.herokuapp.com/api/updateUser/2", requestOptions)
+    fetch(`https://rocky-gorge-10796.herokuapp.com/api/updateUser/${this.state.id}`, requestOptions)
       .then(response => response.text())
       .then(data => {
         window.alert("Update Profile Successfully!");
