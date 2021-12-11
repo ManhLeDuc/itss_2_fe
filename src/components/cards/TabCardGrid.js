@@ -87,6 +87,7 @@ export default ({
   const [species,setSpecies] = useState("");
   const [min,setMin] = useState(0);
   const [max,setMax] = useState(999999);
+  const reg = /^\d+$/;
   const handleSubmit = async (event) => {
     event.preventDefault();
     let data = await items.filter(name,species,min,max);
@@ -101,6 +102,24 @@ export default ({
         tempArray.push(temp);
       }
       setLocalTabs({AllClothes: tempArray,ClothesForU: localTabs.ClothesForU});
+  }
+  const handleInputMin = (event) =>{
+    event.preventDefault();
+
+    if (event.target.value < 0 || event.target.value > 1000000 || !reg.test(event.target.value) ) {
+       return;
+    }
+    setMin(event.target.value);
+
+  }
+  const handleInputMax = (event) =>{
+    event.preventDefault();
+
+    if (event.target.value < 0 || event.target.value > 1000000 || !reg.test(event.target.value)) {
+       return;
+    }
+    setMax(event.target.value);
+
   }
   useEffect(() => {
     const fetchAPI = async () => {
@@ -144,11 +163,12 @@ export default ({
             ))}
           </TabsControl>
         </HeaderRow>
+        {activeTab === tabsKeys[0] &&
         <Form onSubmit={(event) => { handleSubmit(event) }}>
            <div className="row pt-3">
             <div className="col-xl-6 col-md-12 input-form pt-2">
               <div className="label align-self-center">Name</div>
-              <Input placeholder="Search name" value={name} onChange={(event) => { setName(event.target.value) }} />
+              <Input placeholder="Search name" value={name} onChange={(event) => {setName(event.target.value) }} />
             </div>
             <div className="col-xl-6 col-md-12 input-form pt-2">
               <span className="label align-self-center">Species</span>
@@ -156,17 +176,18 @@ export default ({
             </div>
             <div className="col-xl-6 col-md-12 input-form pt-2">
               <span className="label align-self-center">Min price</span>
-              <Input placeholder="Input max" value={min} onChange={(event) => { setMin(event.target.value.toString()) }} />
+              <Input placeholder="Input max" value={min} onChange={(event) => {handleInputMin(event)}} />
             </div>
             <div className="col-xl-6 col-md-12 input-form pt-2">
               <span className="label align-self-center">Max price</span>
-              <Input placeholder="Input min" value={max} onChange={(event) => { setMax(event.target.value.toString()) }} />
+              <Input placeholder="Input min" value={max} onChange={(event) => {handleInputMax(event)}} />
             </div>
             <div className="button-search pt-3 align-self-center">
               <Button className="align-self-center" type="submit">Search</Button>
               </div>
           </div>
         </Form>
+      }
         {tabsKeys.map((tabKey, index) => (
           <TabContent
             key={index}
