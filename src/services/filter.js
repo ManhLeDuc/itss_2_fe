@@ -4,11 +4,11 @@ async function allFashion(pages) {
     return x.data.data;
 }
 
-async function filter(name,species,min,max){
+async function filter(name,species,min,max,page=1){
     let data = []
     await axios({
         method : "POST",
-        url : "https://rocky-gorge-10796.herokuapp.com/api/filterFashion",
+        url : `https://rocky-gorge-10796.herokuapp.com/api/filterFashion?page=${page}`,
         data: {
             name: name,
             species: species,
@@ -22,7 +22,7 @@ async function filter(name,species,min,max){
         console.log(err);
     });
     console.log(data);
-    return data.data;
+    return data;
 }
 
 async function recommend(header){

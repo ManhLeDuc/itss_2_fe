@@ -87,7 +87,7 @@ export default () => {
     }    
     storedProducts.push({name: card.title, image_url: card.imageSrc, price:card.price , size: sizeChoice, quantity: quantityChoice})
     localStorage.setItem('carts', JSON.stringify(storedProducts));
-    window.location.href = "/"
+    window.location.href = "/cart"
   }
 
   return (

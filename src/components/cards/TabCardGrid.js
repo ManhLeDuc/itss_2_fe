@@ -13,7 +13,7 @@ import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
 import { items } from "../../services/filter.js"
 import { PrimaryButton } from "components/misc/Buttons.js";
-import axios from 'axios';
+import Pagination from 'react-bootstrap/Pagination'
 import { authenticationService } from '../../services/authentication.service';
 import { authHeader } from '../../helpers/auth-header';
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
@@ -80,73 +80,70 @@ export default ({
    * To see what attributes are configurable of each object inside this array see the example above for "Starters".
    */
   const [localTabs, setLocalTabs] = useState(tabs);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [pageItems, setPageItems] = useState([]);
   const tabsKeys = Object.keys(localTabs);
   const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-  const [recommend,setRecommend] = useState([]);
-  const [name,setName] = useState("");
-  const [species,setSpecies] = useState("");
-  const [min,setMin] = useState(0);
-  const [max,setMax] = useState(999999);
+  const [recommend, setRecommend] = useState([]);
+  const [name, setName] = useState("");
+  const [species, setSpecies] = useState("");
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(999999);
   const reg = /^\d+$/;
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let data = await items.filter(name,species,min,max);
-    console.log(data);
-    let tempArray = [];
-      for (let i=0 ; i<data.length; i++){
-        let temp = {};
-        temp.imageSrc = data[i].img_url;
-        temp.title = data[i].name;
-        temp.price = data[i].price.toString() + "¥";
-        temp.url = "products/" + data[i].id.toString();
-        tempArray.push(temp);
-      }
-      setLocalTabs({AllClothes: tempArray,ClothesForU: localTabs.ClothesForU});
+    await getPage(currentPage);
   }
-  const handleInputMin = (event) =>{
+  const handleInputMin = (event) => {
     event.preventDefault();
-
-    if (event.target.value < 0 || event.target.value > 1000000 || !reg.test(event.target.value) ) {
-       return;
-    }
     setMin(event.target.value);
 
   }
-  const handleInputMax = (event) =>{
+  const handleInputMax = (event) => {
     event.preventDefault();
-
-    if (event.target.value < 0 || event.target.value > 1000000 || !reg.test(event.target.value)) {
-       return;
-    }
     setMax(event.target.value);
 
   }
-  useEffect(() => {
-    const fetchAPI = async () => {
-      let data = await items.allFashion();
-      console.log(data);
-      let tempArray = [];
-      for (let i = 0; i < data.length; i++) {
+
+  const getPage = async (pageNumber) => {
+    let data = await items.filter(name, species, min, max, pageNumber);
+    setCurrentPage(data.current_page);
+    let tempItems = []
+    for (let number = 1; number <= Math.ceil(data.total / data.per_page); number++) {
+      tempItems.push(number);
+    }
+    setPageItems(tempItems);
+    console.log(tempItems)
+    console.log(pageItems)
+    let tempArray = [];
+    for (let i = 0; i < data.data.length; i++) {
+      let temp = {};
+      temp.imageSrc = data.data[i].img_url;
+      temp.title = data.data[i].name;
+      temp.price = data.data[i].price.toString() + "¥";
+      temp.url = "products/" + data.data[i].id.toString();
+      tempArray.push(temp);
+    }
+    let tempArray2 = [];
+    if (authenticationService.currentUserValue) {
+      let recommendData = await items.recommend(authHeader());
+      for (let i = 0; i < recommendData.length; i++) {
         let temp = {};
-        temp.imageSrc = data[i].img_url;
-        temp.title = data[i].name;
-        temp.price = data[i].price.toString() + "¥";
-        temp.url = "products/" + data[i].id.toString();
-        tempArray.push(temp);
-      }
-      let tempArray2 = [];
-      if (authenticationService.currentUserValue){
-        let recommendData = await items.recommend(authHeader());
-        for (let i = 0; i < recommendData.length; i++) {
-        let temp = {};
-        temp.imageSrc = data[i].img_url;
-        temp.title = data[i].name;
-        temp.price = data[i].price.toString() + "¥";
-        temp.url = "products/" + data[i].id.toString();
+        temp.imageSrc = recommendData[i].img_url;
+        temp.title = recommendData[i].name;
+        temp.price = recommendData[i].price.toString() + "¥";
+        temp.url = "products/" + recommendData[i].id.toString();
         tempArray2.push(temp);
       }
-      }
-      setLocalTabs({AllClothes: tempArray,ClothesForU: tempArray2});
+    }
+    setLocalTabs({ AllClothes: tempArray, ClothesForU: tempArray2 });
+    return data;
+  }
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      await getPage(1);
     }
     fetchAPI();
   }, []);
@@ -164,30 +161,43 @@ export default ({
           </TabsControl>
         </HeaderRow>
         {activeTab === tabsKeys[0] &&
-        <Form onSubmit={(event) => { handleSubmit(event) }}>
-           <div className="row pt-3">
-            <div className="col-xl-6 col-md-12 input-form pt-2">
-              <div className="label align-self-center">Name</div>
-              <Input placeholder="Search name" value={name} onChange={(event) => {setName(event.target.value) }} />
-            </div>
-            <div className="col-xl-6 col-md-12 input-form pt-2">
-              <span className="label align-self-center">Species</span>
-              <Input placeholder="Search species" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
-            </div>
-            <div className="col-xl-6 col-md-12 input-form pt-2">
-              <span className="label align-self-center">Min price</span>
-              <Input placeholder="Input max" value={min} onChange={(event) => {handleInputMin(event)}} />
-            </div>
-            <div className="col-xl-6 col-md-12 input-form pt-2">
-              <span className="label align-self-center">Max price</span>
-              <Input placeholder="Input min" value={max} onChange={(event) => {handleInputMax(event)}} />
-            </div>
-            <div className="button-search pt-3 align-self-center">
-              <Button className="align-self-center" type="submit">Search</Button>
+          <div>
+            <Form onSubmit={(event) => { handleSubmit(event) }}>
+              <div className="row pt-3">
+                <div className="col-xl-6 col-md-12 input-form pt-2">
+                  <div className="label align-self-center">Name</div>
+                  <Input placeholder="Search name" value={name} onChange={(event) => { setName(event.target.value) }} />
+                </div>
+                <div className="col-xl-6 col-md-12 input-form pt-2">
+                  <span className="label align-self-center">Species</span>
+                  <Input placeholder="Search species" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
+                </div>
+                <div className="col-xl-6 col-md-12 input-form pt-2">
+                  <span className="label align-self-center">Min price</span>
+                  <Input type="number" min={0} placeholder="Input Min Price" value={min} onChange={(event) => { handleInputMin(event) }} />
+                </div>
+                <div className="col-xl-6 col-md-12 input-form pt-2">
+                  <span className="label align-self-center">Max price</span>
+                  <Input type="number" min={min} max={999999} placeholder="Input Max Price" value={max} onChange={(event) => { handleInputMax(event) }} />
+                </div>
+                <div className="button-search pt-3 align-self-center">
+                  <Button className="align-self-center" type="submit">Search</Button>
+                </div>
               </div>
+            </Form>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Pagination>
+                {pageItems.map((item, index) => (
+                  <Pagination.Item key={item} active={item === currentPage} onClick={()=>{getPage(item)}}>
+                    {item}
+                  </Pagination.Item>
+                ))}
+              </Pagination>
+            </div>
           </div>
-        </Form>
-      }
+
+        }
+
         {tabsKeys.map((tabKey, index) => (
           <TabContent
             key={index}
