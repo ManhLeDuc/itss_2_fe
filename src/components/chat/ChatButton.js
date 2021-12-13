@@ -13,7 +13,7 @@ class ChatButton extends React.Component {
           width: "90px",
           padding: "10px",
           paddingRight: "30px",
-        }} alt="fireSpot" onClick={()=>{window.open("https://www.messenger.com/t/www.hacom.vn")}}/>
+        }} alt="fireSpot" onClick={()=>{window.open("https://www.messenger.com/t/100006827889203")}}/>
       </div>
     );
   }
