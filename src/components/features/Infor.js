@@ -25,9 +25,9 @@ class Infor extends React.Component {
             this.setState({
               guestName: data.success.name,
               sex: data.success.sex === 0 ? "male" : "female",
-              age: data.success.age,
-              height: data.success.height,
-              weight: data.success.weight,
+              age: data.success.age || "",
+              height: data.success.height || "",
+              weight: data.success.weight || "",
               id: data.success.id
             });
           }
@@ -136,7 +136,7 @@ class Infor extends React.Component {
             <div className="col-40 ip-title">Age: </div>
             <input className="col-60 ip-box"
               name="age"
-              type="text"
+              type="number"
               value={this.state.age}
               onChange={this.handleInputChange} />
           </label>
@@ -146,7 +146,7 @@ class Infor extends React.Component {
             <div className="col-40 ip-title">Height(cm): </div>
             <input className="col-60 ip-box"
               name="height"
-              type="text"
+              type="number"
               value={this.state.height}
               onChange={this.handleInputChange} />
           </label>
@@ -156,7 +156,7 @@ class Infor extends React.Component {
             <div className="col-40 ip-title"> Weight(kg): </div>
             <input className="col-60 ip-box"
               name="weight"
-              type="text"
+              type="number"
               value={this.state.weight}
               onChange={this.handleInputChange} />
           </label>
