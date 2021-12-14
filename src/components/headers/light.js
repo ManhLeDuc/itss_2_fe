@@ -107,13 +107,15 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
             setIsLogin(true)
           }
           else {
-            setIsLogin(false)
             authenticationService.logout();
+            setIsLogin(false)
           }
 
           console.log(data);
         })
         .catch((error) => {
+          authenticationService.logout();
+          setIsLogin(false)
           console.log(error);
         });
     }

@@ -62,6 +62,8 @@ function signup(name, email, password, cPassword) {
 
 function logout() {
     // remove user from local storage to log user out
+    console.log("logout");
+    localStorage.removeItem('carts');
     localStorage.removeItem('currentUser');
     currentUserSubject.next(null);
 }
