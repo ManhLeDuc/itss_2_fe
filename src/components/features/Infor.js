@@ -85,7 +85,7 @@ class Infor extends React.Component {
     };
 
     fetch(`https://rocky-gorge-10796.herokuapp.com/api/updateUser/${this.state.id}`, requestOptions)
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
         window.alert("Update Profile Successfully!");
       })
