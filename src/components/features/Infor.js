@@ -73,7 +73,7 @@ class Infor extends React.Component {
     var formdata = new FormData();
     formdata.append("age", this.state.age.toString());
     formdata.append("name", this.state.guestName);
-    formdata.append("sex", this.state.sex === "male" ? "0" :"1");
+    formdata.append("sex", this.state.sex === "male" ? "0" : "1");
     formdata.append("weight", this.state.weight.toString());
     formdata.append("height", this.state.height.toString());
 
@@ -87,7 +87,14 @@ class Infor extends React.Component {
     fetch(`https://rocky-gorge-10796.herokuapp.com/api/updateUser/${this.state.id}`, requestOptions)
       .then(response => response.json())
       .then(data => {
-        window.alert("Update Profile Successfully!");
+        if (data.success) {
+          window.alert("Update Profile Successfully!");
+        }
+        else {
+          window.alert("Failed to Update Profile");
+          window.location.reload();
+        }
+
       })
       .catch(error => {
         window.alert("Failed to Update Profile");
