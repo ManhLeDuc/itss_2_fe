@@ -78,6 +78,10 @@ export default () => {
   }
 
   const handleAdd = () => {
+    if(quantityChoice < 1){
+      window.alert("Invalid Input");
+      return;
+    }
     let alo = localStorage.getItem('carts');
     let storedProducts;
     if(alo){
@@ -122,7 +126,7 @@ export default () => {
                     type="number"
                     value={quantityChoice}
                     min={1}
-                    onChange={(event)=>{setQuantityChoice(event.target.value)}} />
+                    onChange={(event)=>{if(event.target.value>0){setQuantityChoice(event.target.value)}}} />
                 </label>
                 <br />
                 <Link onClick={handleAdd}>Add</Link>

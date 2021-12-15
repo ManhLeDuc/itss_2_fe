@@ -24,7 +24,7 @@ class Infor extends React.Component {
           if (data.success) {
             this.setState({
               guestName: data.success.name,
-              sex: data.success.sex === 0 ? "male" : "female",
+              sex: data.success.sex === 1 ? "male" : "female",
               age: data.success.age || "",
               height: data.success.height || "",
               weight: data.success.weight || "",
@@ -73,7 +73,7 @@ class Infor extends React.Component {
     var formdata = new FormData();
     formdata.append("age", this.state.age.toString());
     formdata.append("name", this.state.guestName);
-    formdata.append("sex", this.state.sex === "male" ? "0" : "1");
+    formdata.append("sex", this.state.sex === "male" ? "1" : "0");
     formdata.append("weight", this.state.weight.toString());
     formdata.append("height", this.state.height.toString());
 

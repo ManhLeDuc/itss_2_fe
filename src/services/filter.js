@@ -32,8 +32,8 @@ async function recommend(header) {
             url: "https://rocky-gorge-10796.herokuapp.com/api/recommended",
             headers: header,
         })
-        if(data.success){
-            return data.success
+        if(data.data.success){
+            return data.data.success.data
         }
         else {
             return [];
