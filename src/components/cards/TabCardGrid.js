@@ -91,6 +91,11 @@ export default ({
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(999999);
   const reg = /^\d+$/;
+
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     await getPage(currentPage);
@@ -121,7 +126,7 @@ export default ({
       let temp = {};
       temp.imageSrc = data.data[i].img_url;
       temp.title = data.data[i].name;
-      temp.price = data.data[i].price.toString() + "円";
+      temp.price = numberWithCommas(data.data[i].price) + "円";
       temp.url = "products/" + data.data[i].id.toString();
       tempArray.push(temp);
     }
@@ -132,7 +137,7 @@ export default ({
         let temp = {};
         temp.imageSrc = recommendData[i].img_url;
         temp.title = recommendData[i].name;
-        temp.price = recommendData[i].price.toString() + "円";
+        temp.price = numberWithCommas(data.data[i].price) + "円";
         temp.url = "products/" + recommendData[i].id.toString();
         tempArray2.push(temp);
       }

@@ -44,6 +44,10 @@ export default () => {
     price: "",
   };
 
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const [card, setCard] = useState(testCard);
   const [isLoading, setIsLoading] = useState(true);
   const [sizeChoice, setSizeChoice] = useState("");
@@ -82,25 +86,25 @@ export default () => {
   }
 
   const handleAdd = () => {
-    if(quantityChoice < 1 || quantityChoice > maxQuantity){
+    if (quantityChoice < 1 || quantityChoice > maxQuantity) {
       window.alert("Invalid Input");
       return;
     }
     let alo = localStorage.getItem('carts');
-    let storedProducts ;
-    if(alo){
+    let storedProducts;
+    if (alo) {
       storedProducts = JSON.parse(alo);
-    } else{
+    } else {
       storedProducts = {};
-    }    
-    if (storedProducts[`${card.id}+${sizeId}`]){
+    }
+    if (storedProducts[`${card.id}+${sizeId}`]) {
       storedProducts[`${card.id}+${sizeId}`].quantity += quantityChoice;
-      if (storedProducts[`${card.id}+${sizeId}`].quantity > maxQuantity){
+      if (storedProducts[`${card.id}+${sizeId}`].quantity > maxQuantity) {
         window.alert("Invalid input");
         return;
       }
-    } else{
-      storedProducts[`${card.id}+${sizeId}`] ={id:card.id, size_id:sizeId, name: card.title, image_url: card.imageSrc, price:card.price , size: sizeChoice, quantity: quantityChoice}
+    } else {
+      storedProducts[`${card.id}+${sizeId}`] = { id: card.id, size_id: sizeId, name: card.title, image_url: card.imageSrc, price: card.price, size: sizeChoice, quantity: quantityChoice }
     }
     localStorage.setItem('carts', JSON.stringify(storedProducts));
     window.location.href = "/cart"
@@ -117,18 +121,20 @@ export default () => {
                 <Subtitle>{card.subtitle}</Subtitle>
                 <Title>{card.title}</Title>
                 <Description>{card.description}</Description>
-                <Description>Price {card.price}</Description>
+                <Description>Price {numberWithCommas(card.price)}円</Description>
                 <div>Size: {getCardSizes(card.sizes)}</div>
                 <label>
                   <div className="col-40 ip-title">Size: </div>
                   <select className="col-60 ip-box"
                     name="size"
-                    onChange={(event)=>{setSizeChoice(card.sizes[parseInt(event.target.value)].name);
-                                        setSizeId(card.sizes[parseInt(event.target.value)].size_id);
-                                        setMaxQuantity(card.sizes[parseInt(event.target.value)].quantity)}}
+                    onChange={(event) => {
+                      setSizeChoice(card.sizes[parseInt(event.target.value)].name);
+                      setSizeId(card.sizes[parseInt(event.target.value)].size_id);
+                      setMaxQuantity(card.sizes[parseInt(event.target.value)].quantity)
+                    }}
                   >
-                    {card.sizes.map((size,index)=>(<option value={index}>{size.name}</option>))}
-                    
+                    {card.sizes.map((size, index) => (<option value={index}>{size.name}</option>))}
+
                   </select>
                 </label>
                 <div>Max Quantity: {maxQuantity}</div>
@@ -139,7 +145,7 @@ export default () => {
                     type="number"
                     value={quantityChoice}
                     min={1}
-                    onChange={(event)=>{if(event.target.value>0){setQuantityChoice(parseInt(event.target.value))}}} />
+                    onChange={(event) => { if (event.target.value > 0) { setQuantityChoice(parseInt(event.target.value)) } }} />
                 </label>
                 <br />
                 <Link onClick={handleAdd}>Add</Link>

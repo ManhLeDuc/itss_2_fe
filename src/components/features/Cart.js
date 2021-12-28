@@ -32,6 +32,10 @@ function Cart() {
         localStorage.setItem('carts', JSON.stringify(storedProducts));
     }
 
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     return (
         <div>
             <div className="modal-body">
@@ -47,7 +51,7 @@ function Cart() {
                     ))}
                     <div className="cart-total">
                         <strong className="cart-total-title">Total:</strong>
-                        <span className="cart-total-price">{`${sumProductsPrice()}¥`}</span>
+                        <span className="cart-total-price">{`${numberWithCommas(sumProductsPrice())}円`}</span>
                     </div>
                 </div>
 
