@@ -68,10 +68,10 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 `;
 
 export default ({
-  heading = "Checkout the Menu",
+  heading = "",
   tabs = {
-    AllClothes: [],
-    ClothesForU: [],
+    すべての服: [],
+    おすすめ服: [],
   }
 }) => {
   /*
@@ -121,7 +121,7 @@ export default ({
       let temp = {};
       temp.imageSrc = data.data[i].img_url;
       temp.title = data.data[i].name;
-      temp.price = data.data[i].price.toString() + "¥";
+      temp.price = data.data[i].price.toString() + "円";
       temp.url = "products/" + data.data[i].id.toString();
       tempArray.push(temp);
     }
@@ -132,12 +132,12 @@ export default ({
         let temp = {};
         temp.imageSrc = recommendData[i].img_url;
         temp.title = recommendData[i].name;
-        temp.price = recommendData[i].price.toString() + "¥";
+        temp.price = recommendData[i].price.toString() + "円";
         temp.url = "products/" + recommendData[i].id.toString();
         tempArray2.push(temp);
       }
     }
-    setLocalTabs({ AllClothes: tempArray, ClothesForU: tempArray2 });
+    setLocalTabs({ すべての服: tempArray, おすすめ服: tempArray2 });
     return data;
   }
 
@@ -165,23 +165,23 @@ export default ({
             <Form onSubmit={(event) => { handleSubmit(event) }}>
               <div className="row pt-3">
                 <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <div className="label align-self-center">Name</div>
-                  <Input placeholder="Search name" value={name} onChange={(event) => { setName(event.target.value) }} />
+                  <div className="label align-self-center">製品名</div>
+                  <Input placeholder="製品名" value={name} onChange={(event) => { setName(event.target.value) }} />
                 </div>
                 <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">Species</span>
-                  <Input placeholder="Search species" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
+                  <span className="label align-self-center">カテゴリー</span>
+                  <Input placeholder="カテゴリー" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
                 </div>
                 <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">Min price</span>
+                  <span className="label align-self-center">最小価格</span>
                   <Input type="number" min={0} placeholder="Input Min Price" value={min} onChange={(event) => { handleInputMin(event) }} />
                 </div>
                 <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">Max price</span>
+                  <span className="label align-self-center">最高価格</span>
                   <Input type="number" min={min} max={999999} placeholder="Input Max Price" value={max} onChange={(event) => { handleInputMax(event) }} />
                 </div>
                 <div className="button-search pt-3 align-self-center">
-                  <Button className="align-self-center" type="submit">Search</Button>
+                  <Button className="align-self-center" type="submit">調べる</Button>
                 </div>
               </div>
             </Form>

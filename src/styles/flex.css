@@ -1,0 +1,9 @@
+.flex-wrapper {
+  display: flex;
+  min-height: 90vh;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
+}
