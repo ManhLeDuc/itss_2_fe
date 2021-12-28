@@ -126,6 +126,7 @@ import SignupPage from "./pages/Signup";
 import ProductDetailPage from "./pages/ProductDetail";
 import InforUser from "./pages/InforUser";
 import ShoppingCart from "./pages/ShoppingCart";
+import CheckoutForm from "./pages/CheckoutForm";
 import ChatButton from "./components/chat/ChatButton.js";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -152,6 +153,9 @@ export default function App() {
         <Route path="/cart">
           <ShoppingCart />
           <ChatButton/>
+        </Route>
+        <Route path="/checkout">
+          <CheckoutForm />
         </Route>
         <Route path="/products/:id">
           <ProductDetailPage />
