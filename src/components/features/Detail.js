@@ -48,12 +48,14 @@ export default () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sizeChoice, setSizeChoice] = useState("");
   const [quantityChoice, setQuantityChoice] = useState(1);
-
+  const [sizeId, setSizeId] = useState(1);
+  const [maxQuantity, setMaxQuantity] = useState(1);
   useEffect(() => {
     fetch(`https://rocky-gorge-10796.herokuapp.com/api/showFashion/${id}`)
       .then((res) => { return res.json(); })
       .then((data) => {
         setCard({
+          id: data.id,
           imageSrc: data.img_url,
           subtitle: data.species,
           title: data.name,
@@ -62,8 +64,10 @@ export default () => {
           price: data.price,
           url: "#"
         });
+        setSizeChoice(data.sizes[0].name);
+        setSizeId(data.sizes[0].size_id);
+        setMaxQuantity(data.sizes[0].quantity)
         setIsLoading(false);
-
         console.log(data);
       })
       .catch((error) => {
@@ -78,18 +82,26 @@ export default () => {
   }
 
   const handleAdd = () => {
-    if(quantityChoice < 1){
+    if(quantityChoice < 1 || quantityChoice > maxQuantity){
       window.alert("Invalid Input");
       return;
     }
     let alo = localStorage.getItem('carts');
-    let storedProducts;
+    let storedProducts ;
     if(alo){
       storedProducts = JSON.parse(alo);
     } else{
-      storedProducts = [];
+      storedProducts = {};
     }    
-    storedProducts.push({name: card.title, image_url: card.imageSrc, price:card.price , size: sizeChoice, quantity: quantityChoice})
+    if (storedProducts[`${card.id}+${sizeId}`]){
+      storedProducts[`${card.id}+${sizeId}`].quantity += quantityChoice;
+      if (storedProducts[`${card.id}+${sizeId}`].quantity > maxQuantity){
+        window.alert("Invalid input");
+        return;
+      }
+    } else{
+      storedProducts[`${card.id}+${sizeId}`] ={id:card.id, size_id:sizeId, name: card.title, image_url: card.imageSrc, price:card.price , size: sizeChoice, quantity: quantityChoice}
+    }
     localStorage.setItem('carts', JSON.stringify(storedProducts));
     window.location.href = "/cart"
   }
@@ -111,14 +123,15 @@ export default () => {
                   <div className="col-40 ip-title">Size: </div>
                   <select className="col-60 ip-box"
                     name="size"
-                    value={sizeChoice}
-                    onChange={(event)=>{setSizeChoice(event.target.value)}}
+                    onChange={(event)=>{setSizeChoice(card.sizes[parseInt(event.target.value)].name);
+                                        setSizeId(card.sizes[parseInt(event.target.value)].size_id);
+                                        setMaxQuantity(card.sizes[parseInt(event.target.value)].quantity)}}
                   >
-                    {card.sizes.map((size,index)=>(<option value={size.name}>{size.name}</option>))}
+                    {card.sizes.map((size,index)=>(<option value={index}>{size.name}</option>))}
                     
                   </select>
                 </label>
-                <br />
+                <div>Max Quantity: {maxQuantity}</div>
                 <label>
                   <div className="col-40 ip-title">Quantity: </div>
                   <input className="col-60 ip-box"
@@ -126,7 +139,7 @@ export default () => {
                     type="number"
                     value={quantityChoice}
                     min={1}
-                    onChange={(event)=>{if(event.target.value>0){setQuantityChoice(event.target.value)}}} />
+                    onChange={(event)=>{if(event.target.value>0){setQuantityChoice(parseInt(event.target.value))}}} />
                 </label>
                 <br />
                 <Link onClick={handleAdd}>Add</Link>
