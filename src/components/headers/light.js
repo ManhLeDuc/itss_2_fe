@@ -81,8 +81,8 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
       <NavLink href="/cart">ショッピングカート</NavLink>
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} onClick={() => {
         authenticationService.logout();
-        setIsLogin(false);
-      }}>Log out</PrimaryLink>
+        window.location.href = "/";
+      }}>ログアウト</PrimaryLink>
     </NavLinks>
   ];
 
