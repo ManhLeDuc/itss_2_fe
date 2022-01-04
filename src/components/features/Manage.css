@@ -1,0 +1,34 @@
+.content {
+    margin: 10%;
+}
+.clothes{
+    position: relative;
+}
+.clothes_img {
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.clothes_name{
+    position: absolute;
+    top: 40%;
+    left: 150px;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.clothes_btn {
+    position: absolute;
+    top: 40%;
+    right: 0%;
+}
+
+.f_left {
+    float: left;
+}
+.f_right {
+    float: right;
+}
