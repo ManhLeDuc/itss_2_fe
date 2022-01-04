@@ -128,6 +128,7 @@ import InforUser from "./pages/InforUser";
 import ShoppingCart from "./pages/ShoppingCart";
 import CheckoutForm from "./pages/CheckoutForm";
 import ChatButton from "./components/chat/ChatButton.js";
+import ClothesManage from "./pages/ClothesManage";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -147,6 +148,9 @@ export default function App() {
         {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route> */}
+        <Route path="/admin">
+          <ClothesManage />
+        </Route>
         <Route path="/profile">
           <InforUser />
         </Route>
