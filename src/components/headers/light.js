@@ -77,6 +77,8 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
 
   const loginLinks = [
     <NavLinks key={1}>
+      <NavLink href="/">ホーム</NavLink>
+      <NavLink href="/suggest">おすすめ服</NavLink>
       <NavLink href="/profile">プロフィール</NavLink>
       <NavLink href="/cart">ショッピングカート</NavLink>
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} onClick={() => {
@@ -88,6 +90,7 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
 
   const notLoginLinks = [
     <NavLinks key={1}>
+    <NavLink href="/">ホーム</NavLink>
       <NavLink href="/login" tw="lg:ml-12!">
         ログイン
       </NavLink>

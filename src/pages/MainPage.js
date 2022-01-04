@@ -22,7 +22,7 @@ import Header from "./components/headers/light"
 import logo from "images/logo.svg";
 import Footer from "components/footers/FiveColumnWithInputForm.js";
 import useInView from "@owaiswiz/use-in-view";
-import TabGrid from "components/cards/TabCardGrid.js";
+import TabGrid2 from "components/cards/TabCardGrid2.js";
 import "./styles/flex.css";
 /* Hero */
 const Row = tw.div`flex`;
@@ -136,7 +136,7 @@ export default ({
         <Content2Xl >
           <Header></Header>
         <div className="flex-wrapper">
-          <TabGrid
+          <TabGrid2
             heading={
               <>
                 私たちの <HighlightedText>製品 </HighlightedText>

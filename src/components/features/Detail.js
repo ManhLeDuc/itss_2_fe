@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { useParams } from 'react-router-dom';
 import { ReactComponent as SvgDotPatternIcon } from "../../images/dot-pattern.svg";
 import { SectionHeading as HeadingTitle } from "../misc/Headings.js";
-
+import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
 const Container = tw.div`relative`;
 
 const SingleColumn = tw.div`max-w-screen-xl mx-auto py-10 lg:py-10`;
@@ -13,7 +13,7 @@ const HeadingInfoContainer = tw.div`flex flex-col items-center`;
 const HeadingDescription = tw.p`mt-4 font-medium text-gray-600 text-center max-w-sm`;
 
 const Content = tw.div`mt-16`;
-
+const Button = tw(PrimaryButtonBase)`text-sm`;
 const Card = styled.div(props => [
   tw`mt-24 md:flex justify-center items-center`,
   props.reversed ? tw`flex-row-reverse` : "flex-row"
@@ -148,7 +148,8 @@ export default () => {
                     onChange={(event) => { if (event.target.value > 0) { setQuantityChoice(parseInt(event.target.value)) } }} />
                 </label>
                 <br />
-                <Link onClick={handleAdd}>Add</Link>
+                <br />
+                <Button onClick={handleAdd}><i className="fa fa-shopping-cart" aria-hidden="true">Add to cart</i></Button>
               </Details>
             </Card>
             : <div></div>}

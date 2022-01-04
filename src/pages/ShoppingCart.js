@@ -14,6 +14,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     const checkLogin = () => {
       if (!authenticationService.currentUserValue) {
+        window.alert("U must login first")
         window.location.href = '/';
       }
     }

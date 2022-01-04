@@ -70,7 +70,7 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 export default ({
   heading = "",
   tabs = {
-    すべての服: [],
+    おすすめ服: [],
   },
   id = "",
 }) => {
@@ -141,15 +141,16 @@ export default ({
         tempArray2.push(temp);
       }
     }
-    setLocalTabs({ すべての服: tempArray});
+    setLocalTabs({おすすめ服: tempArray2 });
     return data;
   }
 
   useEffect(() => {
     const fetchAPI = async () => {
-      await getPage(1);
+    getPage(1);
     }
     fetchAPI();
+    console.log(activeTab);
     // if (!id){
     //   setLocalTabs(id);
     // }
@@ -161,49 +162,12 @@ export default ({
           <Header>{heading}</Header>
           <TabsControl>
             {Object.keys(localTabs).map((tabName, index) => (
-              <TabControl key={index} active={activeTab === tabName} onClick={(e) => {e.preventDefault();setActiveTab(tabName);}}>
+              <TabControl key={index} active={activeTab === tabName} onClick={() => setActiveTab(tabName)}>
                 {tabName}
               </TabControl>
             ))}
           </TabsControl>
         </HeaderRow>
-        {activeTab === tabsKeys[0] &&
-          <div>
-            <Form onSubmit={(event) => { handleSubmit(event) }}>
-              <div className="row pt-3">
-                <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <div className="label align-self-center">製品名</div>
-                  <Input placeholder="製品名" value={name} onChange={(event) => { setName(event.target.value) }} />
-                </div>
-                <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">カテゴリー</span>
-                  <Input placeholder="カテゴリー" value={species} onChange={(event) => { setSpecies(event.target.value) }} />
-                </div>
-                <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">最小価格</span>
-                  <Input type="number" min={0} placeholder="Input Min Price" value={min} onChange={(event) => { handleInputMin(event) }} />
-                </div>
-                <div className="col-xl-6 col-md-12 input-form pt-2">
-                  <span className="label align-self-center">最高価格</span>
-                  <Input type="number" min={min} max={999999} placeholder="Input Max Price" value={max} onChange={(event) => { handleInputMax(event) }} />
-                </div>
-                <div className="button-search pt-3 align-self-center">
-                  <Button className="align-self-center" type="submit">調べる</Button>
-                </div>
-              </div>
-            </Form>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Pagination>
-                {pageItems.map((item, index) => (
-                  <Pagination.Item key={item} active={item === currentPage} onClick={()=>{getPage(item)}}>
-                    {item}
-                  </Pagination.Item>
-                ))}
-              </Pagination>
-            </div>
-          </div>
-
-        }
 
         {tabsKeys.map((tabKey, index) => (
           <TabContent
