@@ -71,6 +71,7 @@ export default ({
   heading = "",
   tabs = {
     すべての服: [],
+    おすすめ服: [],
   },
   id = "",
 }) => {
@@ -84,7 +85,7 @@ export default ({
   const [totalPage, setTotalPage] = useState(0);
   const [pageItems, setPageItems] = useState([]);
   const tabsKeys = Object.keys(localTabs);
-  const [activeTab, setActiveTab] = useState(tabsKeys[0]);
+  const [activeTab, setActiveTab] = useState(tabsKeys[localStorage.getItem('currentTab') || 0]);
   const [recommend, setRecommend] = useState([]);
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
@@ -141,7 +142,7 @@ export default ({
         tempArray2.push(temp);
       }
     }
-    setLocalTabs({ すべての服: tempArray});
+    setLocalTabs({ すべての服: tempArray, おすすめ服: tempArray2 });
     return data;
   }
 
@@ -161,7 +162,13 @@ export default ({
           <Header>{heading}</Header>
           <TabsControl>
             {Object.keys(localTabs).map((tabName, index) => (
-              <TabControl key={index} active={activeTab === tabName} onClick={(e) => {e.preventDefault();setActiveTab(tabName);}}>
+              <TabControl key={index} active={activeTab === tabName} onClick={
+                (e) => {
+                  e.preventDefault(); 
+                  setActiveTab(tabName);
+                  localStorage.setItem('currentTab', index)
+                }
+              }>
                 {tabName}
               </TabControl>
             ))}
@@ -188,14 +195,14 @@ export default ({
                   <Input type="number" min={min} max={999999} placeholder="Input Max Price" value={max} onChange={(event) => { handleInputMax(event) }} />
                 </div>
                 <div className="button-search pt-3 align-self-center">
-                  <Button className="align-self-center" type="submit">調べる</Button>
+                  <Button className="align-self-center" type="submit">探索</Button>
                 </div>
               </div>
             </Form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Pagination>
                 {pageItems.map((item, index) => (
-                  <Pagination.Item key={item} active={item === currentPage} onClick={()=>{getPage(item)}}>
+                  <Pagination.Item key={item} active={item === currentPage} onClick={() => { getPage(item) }}>
                     {item}
                   </Pagination.Item>
                 ))}

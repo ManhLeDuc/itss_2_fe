@@ -128,7 +128,6 @@ import InforUser from "./pages/InforUser";
 import ShoppingCart from "./pages/ShoppingCart";
 import CheckoutForm from "./pages/CheckoutForm";
 import ChatButton from "./components/chat/ChatButton.js";
-import MainPage2 from "MainPage2.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
@@ -172,10 +171,6 @@ export default function App() {
         </Route>
         <Route path="/">
           <MainLandingPage />
-          <ChatButton/>
-        </Route>
-        <Route path="/suggest">
-          <MainPage2 />
           <ChatButton/>
         </Route>
       </Switch>

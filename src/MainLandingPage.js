@@ -139,7 +139,7 @@ export default ({
           <TabGrid
             heading={
               <>
-                私たちの <HighlightedText>製品 </HighlightedText>
+                360° <HighlightedText>ファッション </HighlightedText>
               </>
             }
           />

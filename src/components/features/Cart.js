@@ -40,17 +40,17 @@ function Cart() {
         <div>
             <div className="modal-body">
                 <div className="cart-row">
-                    <span className="cart-item cart-header cart-column">Product</span>
-                    <span className="cart-price cart-header cart-column">Size</span>
-                    <span className="cart-price cart-header cart-column">Price</span>
-                    <span className="cart-quantity cart-header cart-column">Quantity</span>
+                    <span className="cart-item cart-header cart-column">製品</span>
+                    <span className="cart-price cart-header cart-column">サイズ</span>
+                    <span className="cart-price cart-header cart-column">価格</span>
+                    <span className="cart-quantity cart-header cart-column">数量</span>
                 </div>
                 <div className="cart-items">
                     {Object.keys(products).map((product, index) => (
                         <CartItem product={products[product]} handleDelete={() => { handleDelete(product) }}></CartItem>
                     ))}
                     <div className="cart-total">
-                        <strong className="cart-total-title">Total:</strong>
+                        <strong className="cart-total-title">合計:</strong>
                         <span className="cart-total-price">{`${numberWithCommas(sumProductsPrice())}円`}</span>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ReactComponent as SvgDotPatternIcon } from "../../images/dot-pattern.svg";
 import { SectionHeading as HeadingTitle } from "../misc/Headings.js";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
+import { authenticationService } from '../../services/authentication.service';
 const Container = tw.div`relative`;
 
 const SingleColumn = tw.div`max-w-screen-xl mx-auto py-10 lg:py-10`;
@@ -86,6 +87,10 @@ export default () => {
   }
 
   const handleAdd = () => {
+    if (!authenticationService.currentUserValue) {
+      window.alert("U must login first")
+      return;
+    }
     if (quantityChoice < 1 || quantityChoice > maxQuantity) {
       window.alert("Invalid Input");
       return;
@@ -121,10 +126,10 @@ export default () => {
                 <Subtitle>{card.subtitle}</Subtitle>
                 <Title>{card.title}</Title>
                 <Description>{card.description}</Description>
-                <Description>Price {numberWithCommas(card.price)}円</Description>
-                <div>Size: {getCardSizes(card.sizes)}</div>
+                <Description>価格 {numberWithCommas(card.price)}円</Description>
+                <div>サイズ: {getCardSizes(card.sizes)}</div>
                 <label>
-                  <div className="col-40 ip-title">Size: </div>
+                  <div className="col-40 ip-title">買うサイズ: </div>
                   <select className="col-60 ip-box"
                     name="size"
                     onChange={(event) => {
@@ -137,9 +142,9 @@ export default () => {
 
                   </select>
                 </label>
-                <div>Max Quantity: {maxQuantity}</div>
+                <div>最大数量: {maxQuantity}</div>
                 <label>
-                  <div className="col-40 ip-title">Quantity: </div>
+                  <div className="col-40 ip-title">買う数量: </div>
                   <input className="col-60 ip-box"
                     name="quantity"
                     type="number"
@@ -149,7 +154,7 @@ export default () => {
                 </label>
                 <br />
                 <br />
-                <Button onClick={handleAdd}><i className="fa fa-shopping-cart" aria-hidden="true">Add to cart</i></Button>
+                <Button onClick={handleAdd}><i className="fa fa-shopping-cart" aria-hidden="true">ショッピングカートに追加</i></Button>
               </Details>
             </Card>
             : <div></div>}

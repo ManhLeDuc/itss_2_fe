@@ -22,9 +22,16 @@ class Infor extends React.Component {
         .then((res) => { return res.json(); })
         .then((data) => {
           if (data.success) {
+            var temp_sex = ""
+            if(data.success.sex === 1){
+              temp_sex = "男性"
+            }
+            else if(data.success.sex === 0){
+              temp_sex = "女性"
+            }
             this.setState({
               guestName: data.success.name,
-              sex: data.success.sex === 1 ? "male" : "female",
+              sex: temp_sex,
               age: data.success.age || "",
               height: data.success.height || "",
               weight: data.success.weight || "",
@@ -73,7 +80,7 @@ class Infor extends React.Component {
     var formdata = new FormData();
     formdata.append("age", this.state.age.toString());
     formdata.append("name", this.state.guestName);
-    formdata.append("sex", this.state.sex === "male" ? "1" : "0");
+    formdata.append("sex", this.state.sex === "男性" ? "1" : "0");
     formdata.append("weight", this.state.weight.toString());
     formdata.append("height", this.state.height.toString());
 
@@ -105,12 +112,12 @@ class Infor extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>User's Information</h1>
+        <h1>ユーザー情報</h1>
         <form onSubmit={this.handleSubmit}>
 
 
           <label>
-            <div className="col-40 ip-title">Name: </div>
+            <div className="col-40 ip-title">名前: </div>
             <input className="col-60 ip-box"
               name="guestName"
               type="text"
@@ -120,20 +127,21 @@ class Infor extends React.Component {
           <br />
 
           <label>
-            <div className="col-40 ip-title">Sex: </div>
+            <div className="col-40 ip-title">性別: </div>
             <select className="col-60 ip-box"
               name="sex"
               value={this.state.sex}
               onChange={this.handleInputChange}
             >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option disabled selected value=""></option>
+              <option value="男性">男性</option>
+              <option value="女性">女性</option>
             </select>
           </label>
           <br />
 
           <label>
-            <div className="col-40 ip-title">Age: </div>
+            <div className="col-40 ip-title">年齢: </div>
             <input className="col-60 ip-box"
               name="age"
               type="number"
@@ -143,7 +151,7 @@ class Infor extends React.Component {
           <br />
 
           <label>
-            <div className="col-40 ip-title">Height(cm): </div>
+            <div className="col-40 ip-title">身長(cm): </div>
             <input className="col-60 ip-box"
               name="height"
               type="number"
@@ -153,7 +161,7 @@ class Infor extends React.Component {
           <br />
 
           <label>
-            <div className="col-40 ip-title"> Weight(kg): </div>
+            <div className="col-40 ip-title"> 重量(kg): </div>
             <input className="col-60 ip-box"
               name="weight"
               type="number"

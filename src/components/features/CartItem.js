@@ -16,7 +16,7 @@ const cartItem = (props) => {
       <span className="cart-price cart-column">{`${numberWithCommas(props.product.price)}円`}</span>
       <div className="cart-quantity cart-column">
         <input className="cart-quantity-input" type="number" value={props.product.quantity}></input>
-        <button className="btn btn-danger" type="button" onClick={props.handleDelete}>Delete</button>
+        <button className="btn btn-danger" type="button" onClick={props.handleDelete}>消去</button>
       </div>
     </div>
   )
