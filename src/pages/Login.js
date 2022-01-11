@@ -57,7 +57,7 @@ const IllustrationImage = styled.div`
 export default ({
   logoLinkUrl = "/",
   illustrationImageSrc = illustration,
-  headingText = "Sign In To 360°",
+  headingText = "360°にログイン",
   socialButtons = [
     {
       iconImageSrc: googleIconImageSrc,
@@ -70,7 +70,7 @@ export default ({
       url: "https://twitter.com"
     }
   ],
-  submitButtonText = "Sign In",
+  submitButtonText = "ログイン",
   SubmitButtonIcon = LoginIcon,
   forgotPasswordUrl = "#",
   signupUrl = "/signup",
@@ -122,22 +122,17 @@ export default ({
                 <DividerText>Or Sign in with your e-mail</DividerText>
               </DividerTextContainer> */}
                 <Form onSubmit={(event) => { handleSubmit(event) }}>
-                  <Input type="email" placeholder="Email" value={email} onChange={(event) => { setEmail(event.target.value) }} />
-                  <Input type="password" placeholder="Password" value={password} onChange={(event) => { setPassword(event.target.value) }} />
+                  <Input type="email" placeholder="Eメール" value={email} onChange={(event) => { setEmail(event.target.value) }} />
+                  <Input type="password" placeholder="パスワード" value={password} onChange={(event) => { setPassword(event.target.value) }} />
                   <SubmitButton type="submit" onClick={() => { }}>
                     <SubmitButtonIcon className="icon" />
                     <span className="text">{submitButtonText}</span>
                   </SubmitButton>
                 </Form>
-                <p tw="mt-6 text-xs text-gray-600 text-center">
-                  <a href={forgotPasswordUrl} tw="border-b border-gray-500 border-dotted">
-                    Forgot Password ?
-                  </a>
-                </p>
                 <p tw="mt-8 text-sm text-gray-600 text-center">
-                  Dont have an account?{" "}
+                アカウントがない？{" "}
                   <a href={signupUrl} tw="border-b border-gray-500 border-dotted">
-                    Sign Up
+                    サインアップ
                   </a>
                 </p>
               </FormContainer>

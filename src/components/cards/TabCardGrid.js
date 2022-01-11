@@ -137,7 +137,7 @@ export default ({
         let temp = {};
         temp.imageSrc = recommendData[i].img_url;
         temp.title = recommendData[i].name;
-        temp.price = numberWithCommas(data.data[i].price) + "円";
+        temp.price = numberWithCommas(recommendData[i].price) + "円";
         temp.url = "products/" + recommendData[i].id.toString();
         tempArray2.push(temp);
       }

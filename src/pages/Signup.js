@@ -57,7 +57,7 @@ const IllustrationImage = styled.div`
 export default ({
   logoLinkUrl = "/",
   illustrationImageSrc = illustration,
-  headingText = "Sign Up For 360°",
+  headingText = "360°にサインアップ",
   socialButtons = [
     {
       iconImageSrc: googleIconImageSrc,
@@ -70,7 +70,7 @@ export default ({
       url: "https://twitter.com"
     }
   ],
-  submitButtonText = "Sign Up",
+  submitButtonText = "サインアップ",
   SubmitButtonIcon = SignUpIcon,
   tosUrl = "#",
   privacyPolicyUrl = "#",
@@ -124,29 +124,19 @@ export default ({
                 <DividerText>Or Sign up with your e-mail</DividerText>
               </DividerTextContainer> */}
                 <Form onSubmit={(event)=>{handleSubmit(event)}}>
-                  <Input type="text" placeholder="Name" value={name} onChange={(event) => { setName(event.target.value) }}/>
-                  <Input type="email" placeholder="Email" value={email} onChange={(event) => { setEmail(event.target.value) }}/>
-                  <Input type="password" placeholder="Password" value={password} onChange={(event) => { setPassword(event.target.value) }}/>
-                  <Input type="password" placeholder="Confirm password" value={cPassword} onChange={(event) => { setCpassword(event.target.value) }}/>
+                  <Input type="text" placeholder="名前" value={name} onChange={(event) => { setName(event.target.value) }}/>
+                  <Input type="email" placeholder="Eメール" value={email} onChange={(event) => { setEmail(event.target.value) }}/>
+                  <Input type="password" placeholder="パスワード" value={password} onChange={(event) => { setPassword(event.target.value) }}/>
+                  <Input type="password" placeholder="パスワードの確認" value={cPassword} onChange={(event) => { setCpassword(event.target.value) }}/>
                   <SubmitButton type="submit">
                     <SubmitButtonIcon className="icon" />
                     <span className="text">{submitButtonText}</span>
                   </SubmitButton>
-                  <p tw="mt-6 text-xs text-gray-600 text-center">
-                    I agree to abide by 360°'s{" "}
-                    <a href={tosUrl} tw="border-b border-gray-500 border-dotted">
-                      Terms of Service
-                    </a>{" "}
-                    and its{" "}
-                    <a href={privacyPolicyUrl} tw="border-b border-gray-500 border-dotted">
-                      Privacy Policy
-                    </a>
-                  </p>
 
                   <p tw="mt-8 text-sm text-gray-600 text-center">
-                    Already have an account?{" "}
+                    すでにアカウントがあった？{" "}
                     <a href={signInUrl} tw="border-b border-gray-500 border-dotted">
-                      Sign In
+                      ログイン
                     </a>
                   </p>
                 </Form >
