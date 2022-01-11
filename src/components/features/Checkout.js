@@ -62,7 +62,11 @@ function Checkout() {
                 .then((res) => { return res.json(); })
                 .then((data) => {
                     if (data.success) {
-                        setUserInfo({ name: data.success.name, email: data.success.email })
+                        var address = ""
+                        if (!data.success.address){
+                            address = data.success.address;
+                        }
+                        setUserInfo({ name: data.success.name, email: data.success.email, address: address })
                     }
                     else {
                         authenticationService.logout();
@@ -156,7 +160,7 @@ function Checkout() {
                                 <div className="col-md-12">
                                     <label for="kh_address">住所</label>
                                     <input type="text" className="form-control" name="kh_address" id="kh_address"
-                                        value="Hà Nội" />
+                                        value={userInfo.address} />
                                 </div>
                                 {/* <div className="col-md-12">
                                     <label for="kh_phonenumber">Điện thoại</label>
