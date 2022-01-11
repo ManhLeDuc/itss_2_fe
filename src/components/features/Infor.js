@@ -10,7 +10,8 @@ class Infor extends React.Component {
     age: '',
     height: '',
     weight: '',
-    id: ''
+    id: '',
+    address: ''
   };
 
   componentWillMount() {
@@ -22,6 +23,7 @@ class Infor extends React.Component {
         .then((res) => { return res.json(); })
         .then((data) => {
           if (data.success) {
+            console.log(data.success);
             var temp_sex = ""
             if(data.success.sex === 1){
               temp_sex = "男性"
@@ -35,7 +37,8 @@ class Infor extends React.Component {
               age: data.success.age || "",
               height: data.success.height || "",
               weight: data.success.weight || "",
-              id: data.success.id
+              id: data.success.id,
+              address: data.success.address || ""
             });
           }
           else {
@@ -59,13 +62,30 @@ class Infor extends React.Component {
     const age = target.age;
     const height = target.height;
     const weight = target.weight;
-
+    const address = target.address ;
+    if(target.name =="age" && (value <0 | value > 120)){
+      window.alert("age must between 0 - 120");
+      return;
+    }
+    if(target.name =="height" && (value <0 | value > 250)){
+      window.alert("height must between 0 - 250");
+      return;
+    }
+    if(target.name =="weight" && (value <0 | value > 300)){
+      window.alert("age must between 0-300 kg");
+      return;
+    }
+    if(target.name =="address" && (value.length <0 | value.length > 120)){
+      window.alert("to many character");
+      return;
+    }
     this.setState({
       [name]: value,
       [sex]: value,
       [age]: value,
       [height]: value,
-      [weight]: value
+      [weight]: value,
+      [address]: value
     }
     );
   };
@@ -83,7 +103,7 @@ class Infor extends React.Component {
     formdata.append("sex", this.state.sex === "男性" ? "1" : "0");
     formdata.append("weight", this.state.weight.toString());
     formdata.append("height", this.state.height.toString());
-
+    formdata.append("address",this.state.address);
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -166,6 +186,15 @@ class Infor extends React.Component {
               name="weight"
               type="number"
               value={this.state.weight}
+              onChange={this.handleInputChange} />
+          </label>
+          <br />
+          <label>
+            <div className="col-40 ip-title"> 住所 : </div>
+            <input className="col-60 ip-box"
+              name="address"
+              type="text"
+              value={this.state.address}
               onChange={this.handleInputChange} />
           </label>
           <br />
