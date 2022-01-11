@@ -10,7 +10,7 @@ const InforUser=()=> {
   useEffect(() => {
     const checkLogin = () => {
       if (!authenticationService.currentUserValue) {
-        window.alert("U must login first")
+        window.alert("ログインする必要がある")
         window.location.href = '/';
       }
     }

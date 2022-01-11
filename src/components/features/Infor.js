@@ -63,19 +63,19 @@ class Infor extends React.Component {
     const height = target.height;
     const weight = target.weight;
     const address = target.address ;
-    if(target.name =="age" && (value <0 | value > 120)){
-      window.alert("age must between 0 - 120");
+    if(target.name ==="age" && (value <0 | value > 120)){
+      window.alert("年齢は0から120の間でないと");
       return;
     }
-    if(target.name =="height" && (value <0 | value > 250)){
-      window.alert("height must between 0 - 250");
+    if(target.name ==="height" && (value <0 | value > 250)){
+      window.alert("身長は0から250の間でないと");
       return;
     }
-    if(target.name =="weight" && (value <0 | value > 300)){
-      window.alert("age must between 0-300 kg");
+    if(target.name ==="weight" && (value <0 | value > 300)){
+      window.alert("重量は0から300の間でないと");
       return;
     }
-    if(target.name =="address" && (value.length <0 | value.length > 120)){
+    if(target.name ==="address" && (value.length <0 | value.length > 120)){
       window.alert("to many character");
       return;
     }
@@ -115,16 +115,16 @@ class Infor extends React.Component {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          window.alert("Update Profile Successfully!");
+          window.alert("プロファイルを更新しました！");
         }
         else {
-          window.alert("Failed to Update Profile");
+          window.alert("プロファイルの更新に失敗しました");
           window.location.reload();
         }
 
       })
       .catch(error => {
-        window.alert("Failed to Update Profile");
+        window.alert("プロファイルの更新に失敗しました");
         window.location.reload();
       });
   };

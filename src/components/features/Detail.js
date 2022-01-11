@@ -88,11 +88,11 @@ export default () => {
 
   const handleAdd = () => {
     if (!authenticationService.currentUserValue) {
-      window.alert("U must login first")
+      window.alert("ログインする必要がある")
       return;
     }
     if (quantityChoice < 1 || quantityChoice > maxQuantity) {
-      window.alert("Invalid Input");
+      window.alert("無効入力");
       return;
     }
     let alo = localStorage.getItem('carts');
@@ -105,7 +105,7 @@ export default () => {
     if (storedProducts[`${card.id}+${sizeId}`]) {
       storedProducts[`${card.id}+${sizeId}`].quantity += quantityChoice;
       if (storedProducts[`${card.id}+${sizeId}`].quantity > maxQuantity) {
-        window.alert("Invalid input");
+        window.alert("無効入力");
         return;
       }
     } else {

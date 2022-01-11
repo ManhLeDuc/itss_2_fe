@@ -38,17 +38,17 @@ function Checkout() {
             .then(data => {
                 if (data.success) {
                     localStorage.removeItem("carts");
-                    window.alert("Order Successfully!");
+                    window.alert("注文成功");
                     window.location.href = '/';
                 }
                 else {
-                    window.alert("Failed to Order");
+                    window.alert("注文失敗");
                     window.location.reload();
                 }
 
             })
             .catch(error => {
-                window.alert("Failed to Order");
+                window.alert("注文失敗");
                 window.location.reload();
             });
     };
