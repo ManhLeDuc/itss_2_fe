@@ -62,11 +62,7 @@ function Checkout() {
                 .then((res) => { return res.json(); })
                 .then((data) => {
                     if (data.success) {
-                        var address = ""
-                        if (!data.success.address){
-                            address = data.success.address;
-                        }
-                        setUserInfo({ name: data.success.name, email: data.success.email, address: address })
+                        setUserInfo({ name: data.success.name, email: data.success.email, address: data.success.address })
                     }
                     else {
                         authenticationService.logout();
