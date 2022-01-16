@@ -20,13 +20,23 @@ const ShoppingCart = () => {
     }
     checkLogin();
   }, []);
+
+  const handleCheckoutButton = () =>{
+    const storedProducts = localStorage.getItem('carts') || JSON.stringify({})
+    console.log(storedProducts)
+    if (storedProducts === "{}") {
+      window.alert("支払う製品がありません");
+      return
+    }
+    window.location.href= "/checkout";
+  }
   return (
     <AnimationRevealPage>
       <Header />
       <div className="flex-wrapper">
         <Cart />
         <div class="d-flex flex-wrap-reverse justify-content-end">
-          <Button className="align-self-center" onClick={()=>{window.location.href = '/checkout'}}>支払い</Button>
+          <Button className="align-self-center" onClick={handleCheckoutButton}>支払い</Button>
         </div>
         <div className="footer">
           <Footer />

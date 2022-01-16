@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authenticationService } from '../../services/authentication.service';
 import { authHeader } from '../../helpers/auth-header';
-
+import './Checkout.css'
 function Checkout() {
 
     const [products, setProducts] = useState({})
@@ -75,7 +75,11 @@ function Checkout() {
                     window.location.href = '/';
                 });
         }
-        const storedProducts = localStorage.getItem('carts') || JSON.stringify({})
+        const storedProducts = localStorage.getItem('carts') || JSON.stringify({});
+        if (storedProducts === "{}") {
+        window.alert("支払う製品がありません");
+        window.location.href = "/";
+        }
         setProducts(JSON.parse(storedProducts))
     }, [])
 
@@ -151,22 +155,17 @@ function Checkout() {
                             <div className="row">
                                 <div className="col-md-12">
                                     <label for="kh_name">名前</label>
-                                    <input type="text" className="form-control" name="kh_name" id="kh_name" value={userInfo.name} />
+                                    <input type="text" className="form-control" name="kh_name" id="kh_name" value={userInfo.name} readonly="readonly"/>
                                 </div>
                                 <div className="col-md-12">
                                     <label for="kh_address">住所</label>
                                     <input type="text" className="form-control" name="kh_address" id="kh_address"
-                                        value={userInfo.address} />
+                                        value={userInfo.address} readonly="readonly"/>
                                 </div>
-                                {/* <div className="col-md-12">
-                                    <label for="kh_phonenumber">Điện thoại</label>
-                                    <input type="text" className="form-control" name="kh_phonenumber" id="kh_phonenumber"
-                                        value="0123456789" />
-                                </div> */}
                                 <div className="col-md-12">
                                     <label for="kh_email">メール</label>
                                     <input type="text" className="form-control" name="kh_email" id="kh_email"
-                                        value={userInfo.email} />
+                                        value={userInfo.email} readonly="readonly"/>
                                 </div>
                             </div>
 
@@ -175,15 +174,11 @@ function Checkout() {
                             <div className="d-block my-3">
                                 <div className="custom-control custom-radio">
                                     <input id="httt-1" name="httt_ma" type="radio" className="custom-control-input" required="" value="1" />
-                                    <span className="custom-control-label" for="httt-1">現金</span>
+                                    <span className="custom-control-label" for="httt-1">バンクカード</span>
                                 </div>
                                 <div className="custom-control custom-radio">
                                     <input id="httt-2" name="httt_ma" type="radio" className="custom-control-input" required="" value="2" />
-                                    <span className="custom-control-label" for="httt-2">Bitcoin</span>
-                                </div>
-                                <div className="custom-control custom-radio">
-                                    <input id="httt-3" name="httt_ma" type="radio" className="custom-control-input" required="" value="3" />
-                                    <span className="custom-control-label" for="httt-3">ETH</span>
+                                    <span className="custom-control-label" for="httt-2">現金</span>
                                 </div>
                             </div>
                             <hr className="mb-4" />
