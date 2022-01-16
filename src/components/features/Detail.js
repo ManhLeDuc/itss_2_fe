@@ -24,9 +24,9 @@ const Image = styled.div(props => [
   tw`rounded md:w-1/2 lg:w-5/12 xl:w-1/3 flex-shrink-0 h-80 md:h-144 bg-cover bg-center mx-4 sm:mx-8 md:mx-4 lg:mx-8`
 ]);
 const Details = tw.div`mt-4 md:mt-0 md:max-w-md mx-4 sm:mx-8 md:mx-4 lg:mx-8`;
-const Subtitle = tw.div`font-bold tracking-wide text-secondary-100`;
+const Subtitle = tw.div`font-bold tracking-wide text-secondary-200`;
 const Title = tw.h4`text-3xl font-bold text-gray-900`;
-const Description = tw.p`mt-2 text-sm leading-loose`;
+const Description = tw.p`mt-2 text-sm leading-loose `;
 const Link = tw.a`inline-block mt-4 text-sm text-primary-500 font-bold cursor-pointer transition duration-300 border-b-2 border-transparent hover:border-primary-500`;
 
 export default () => {
@@ -126,10 +126,12 @@ export default () => {
                 <Subtitle>{card.subtitle}</Subtitle>
                 <Title>{card.title}</Title>
                 <Description>{card.description}</Description>
-                <Description>価格 {numberWithCommas(card.price)}円</Description>
-                <div>サイズ: {getCardSizes(card.sizes)}</div>
+                <div className="col-40 ip-title" style={{textAlign:"left"}}>価格:</div>
+                <div className="col-60 ip-title" style={{textAlign:"center",fontWeight: "bold"}}>{numberWithCommas(card.price)}円</div>
+                <div className="col-40 ip-title" style={{textAlign:"left"}}>サイズ:</div>
+                <div className="col-60 ip-title" style={{textAlign:"center",fontWeight: "bold"}}>{getCardSizes(card.sizes)}</div>
                 <label>
-                  <div className="col-40 ip-title">買うサイズ: </div>
+                  <div className="col-40 ip-title" style={{textAlign:"left"}}>買うサイズ: </div>
                   <select className="col-60 ip-box"
                     name="size"
                     onChange={(event) => {
@@ -142,9 +144,10 @@ export default () => {
 
                   </select>
                 </label>
-                <div>最大数量: {maxQuantity}</div>
+                <div className="col-40 ip-title" style={{textAlign:"left"}}>最大数量:</div>
+                <div className="col-60 ip-title" style={{textAlign:"center",fontWeight: "bold"}}>{maxQuantity}</div>
                 <label>
-                  <div className="col-40 ip-title">買う数量: </div>
+                  <div className="col-40 ip-title" style={{textAlign:"left"}}>買う数量: </div>
                   <input className="col-60 ip-box"
                     name="quantity"
                     type="number"
